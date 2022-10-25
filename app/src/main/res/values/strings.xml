@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">queryapp</string>
+    <string name="final_score">Final Score</string>
+    <string name="score_descript_1">Looks like you know your stuff!</string>
+    <string name="score_descript_2">I know you can do better than that.</string>
+    <string name="congrats">CONGRATULATIONS</string>
+    <string name="next_time">MAYBE NEXT TIME</string>
+    <string name="try_or_move_on">Try to improve your score or move onto the next set of questions.</string>
+    <string name="start_over">Start Over</string>
+    <string name="next_set">Next Set</string>
 </resources>

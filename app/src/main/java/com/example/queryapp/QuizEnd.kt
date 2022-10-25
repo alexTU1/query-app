@@ -1,0 +1,45 @@
+package com.example.queryapp
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.queryapp.ui.theme.QueryappTheme
+
+class QuizEnd : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            QueryappTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
+                    Greetings("Next Page")
+                }
+            }
+        }
+    }
+}
+
+
+
+@Composable
+fun Greetings(name: String) {
+    Text(text = "Hello $name!")
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewDefault() {
+    QueryappTheme {
+        Greetings("Next Page")
+    }
+}
