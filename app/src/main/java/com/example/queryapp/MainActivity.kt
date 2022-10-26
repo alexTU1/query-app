@@ -1,22 +1,18 @@
 package com.example.queryapp
 
-import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,107 +28,126 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    QuizScreen()
+                    PageScreen()
                 }
             }
         }
     }
 }
 
-
+//@Composable
+//fun PageScreen(){
+//    Column(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .background(colorResource(R.color.dark_purple)),
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        Spacer(modifier = Modifier.height(140.dp))
+//        Box(
+//        modifier = Modifier
+//            .width(300.dp)
+//            .height(260.dp)
+//            .clip(RoundedCornerShape(20.dp))
+//            .background(colorResource(R.color.medium_purple)),
+//        contentAlignment =  Alignment.Center
+//        ) {
+//            ScoreContent()
+//        }
+//        Spacer(modifier = Modifier.height(60.dp))
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(300.dp)
+//                .clip(RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
+//                .background(colorResource(R.color.light_purple)),
+//            contentAlignment =  Alignment.Center
+//        ) {
+//            NextSelectionContent()
+//        }
+//
+//    }
+//}
+//
+//@Composable
+//fun ScoreContent(){
+//    Column(
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        Text(
+//            text = stringResource(R.string.final_score),
+//            fontSize = 35.sp,
+//            fontWeight = FontWeight.Bold,
+//            color = colorResource(R.color.dark_purple)
+//        )
+//        Text(
+//            modifier = Modifier.padding(0.dp),
+//            text = "8/10",
+//            fontSize = 80.sp,
+//            fontWeight = FontWeight.Bold,
+//            color = colorResource(R.color.white)
+//        )
+//        Text(
+//            text = stringResource(R.string.score_descript_1),
+//            fontSize = 20.sp,
+//            color = colorResource(R.color.white)
+//        )
+//    }
+//
+//}
+//
+//@Composable
+//fun NextSelectionContent(){
+//    Column(
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        modifier = Modifier.width(300.dp)
+//    ) {
+//        Text(
+//            text = stringResource(R.string.congrats),
+//            fontSize = 30.sp,
+//            fontWeight = FontWeight.Bold,
+//            color = colorResource(R.color.dark_purple)
+//        )
+//        Text(
+//            text = stringResource(R.string.try_or_move_on),
+//            fontSize = 20.sp,
+//            color = colorResource(R.color.white)
+//        )
+//        Button(
+//            onClick = {},
+//            modifier = Modifier.width(300.dp).padding(vertical = 15.dp),
+//            colors = ButtonDefaults.buttonColors(
+//                backgroundColor = colorResource(R.color.medium_purple),
+//            )
+//        ) {
+//            Text(
+//                text = stringResource(R.string.start_over),
+//                color = colorResource(R.color.white)
+//            )
+//        }
+//        Button(
+//            onClick = {},
+//            modifier = Modifier.width(300.dp),
+//            colors = ButtonDefaults.buttonColors(
+//                backgroundColor = colorResource(R.color.medium_purple),
+//            )
+//        ) {
+//            Text(
+//                text = stringResource(R.string.next_set),
+//                color = colorResource(R.color.white)
+//            )
+//        }
+//    }
+//}
 @Composable
-fun QuizScreen() {
-    val correctAnswerString = "The Correct Answer to the hypothetical question"
-    val incorrectAnswerString = "The Incorrect Answer to the hypothetical question"
-    Column(
-        modifier = Modifier
-            .background(colorResource(R.color.quiz_background))
-    ){
-        Box(
-            modifier = Modifier
-                .wrapContentHeight(Alignment.CenterVertically)
-                .background(colorResource(R.color.light_purple))
-        ){
-            Text(
-                text = " Quiz Subject",
-                color = colorResource(R.color.title_color),
-                fontSize = 50.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.15F)
-                    .padding(top = 20.dp)
-            )
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(colorResource(R.color.quiz_background))
-        ){
-            Text(
-                text = "Query: 1/10",
-                fontSize = 25.sp,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.white),
-                modifier = Modifier
-                    .padding(10.dp)
-            )
-            Text(
-                text = "This is some random sample question text. I couldn't think of a question so I am writing this blob that means absolutely nothing.",
-                color = colorResource(R.color.white),
-                fontSize = 19.sp,
-                modifier = Modifier
-                    .fillMaxWidth(0.95F)
-                    .padding(20.dp)
-            )
-            answerOption("A", correctAnswerString)
-            answerOption("B", incorrectAnswerString)
-            answerOption("C", incorrectAnswerString)
-            answerOption("D", incorrectAnswerString)
-        }
-    }
-}
-
-@Composable
-fun answerOption(letter: String, optionString: String){
-    Button(
-        onClick = {},
-        modifier = Modifier
-            .fillMaxWidth(0.99F)
-            .padding(10.dp),
-        colors = ButtonDefaults.buttonColors(colorResource(R.color.light_purple))
-    ){
-        Row(){
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(CircleShape)
-                    .background(colorResource(R.color.white))
-                    .padding(20.dp)
-            ){
-                Text(
-                    text= letter,
-                    fontSize = 18.sp,
-                    color = colorResource(R.color.black),
-
-
-                )
-            }
-            Text(
-                text = optionString,
-                fontSize = 15.sp,
-                color = colorResource(R.color.title_color),
-                modifier = Modifier
-                    .padding(15.dp)
-            )
-        }
-    }
+fun Greeting(name: String){
+    Text(text="Hello $name")
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     QueryappTheme {
-        QuizScreen()
+        Greeting("me")
     }
 }
