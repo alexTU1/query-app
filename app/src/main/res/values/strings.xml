@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">queryapp</string>
+    <string name="final_score">Final Score</string>
+    <string name="score_descript_1">Looks like you know your stuff!</string>
+    <string name="score_descript_2">I know you can do better than that.</string>
+    <string name="congrats">CONGRATULATIONS</string>
+    <string name="next_time">MAYBE NEXT TIME</string>
+    <string name="try_or_move_on">Try to improve your score or move onto the next set of questions.</string>
+    <string name="start_over">Start Over</string>
+    <string name="next_set">Next Set</string>
+    <string name="correct_answer">The Correct Answer to the hypothetical question</string>
+    <string name="incorrect_answer">The Incorrect Answer to the hypothetical question</string>
+    <string name="quiz_subject">Quiz Subject</string>
+    <string name="sample_question">This is some random sample question text. I couldn\'t think of a question so I am writing this blob that means absolutely nothing.</string>
+    <string name="welcome">Welcome</string>
+    <string name="get_started">Get Started</string>
+    <string name="beginner">Beginner</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="advanced">Advanced</string>
 </resources>
