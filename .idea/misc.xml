@@ -3,12 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-<<<<<<< HEAD
-        <entry key="../../../../../../../layout/compose-model-1666372359111.xml" value="0.13513513513513514" />
-=======
+        <entry key="../../../../../../../layout/compose-model-1666824021031.xml" value="0.1" />
+        <entry key="../../../../../../../layout/compose-model-1666824126182.xml" value="0.1" />
+        <entry key="../../../../../../../layout/compose-model-1666824126675.xml" value="0.10270270270270271" />
         <entry key="../../../../layout/compose-model-1666829917353.xml" value="0.26666666666666666" />
         <entry key="../../../../layout/compose-model-1666829932269.xml" value="0.25" />
->>>>>>> master
       </map>
     </option>
   </component>

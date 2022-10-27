@@ -16,9 +16,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun Quiz() {
+fun Quiz(navController: NavController?) {
     Column(
         modifier = Modifier
             .background(colorResource(R.color.medium_purple))
@@ -60,18 +61,20 @@ fun Quiz() {
                     .fillMaxWidth(0.95F)
                     .padding(20.dp)
             )
-            AnswerOption("A", stringResource(R.string.correct_answer))
-            AnswerOption("B", stringResource(R.string.incorrect_answer))
-            AnswerOption("C", stringResource(R.string.incorrect_answer))
-            AnswerOption("D", stringResource(R.string.incorrect_answer))
+            AnswerOption(navController,"A", stringResource(R.string.correct_answer))
+            AnswerOption(navController,"B", stringResource(R.string.incorrect_answer))
+            AnswerOption(navController,"C", stringResource(R.string.incorrect_answer))
+            AnswerOption(navController,"D", stringResource(R.string.incorrect_answer))
         }
     }
 }
 
 @Composable
-fun AnswerOption(letter: String, optionString: String){
+fun AnswerOption(navController: NavController?, letter: String, optionString: String){
     Button(
-        onClick = {},
+        onClick = {
+            navController?.navigate(route = ScreenHolder.QuizEnd.route)
+        },
         modifier = Modifier
             .fillMaxWidth(0.99F)
             .padding(10.dp),
@@ -107,5 +110,5 @@ fun AnswerOption(letter: String, optionString: String){
 @Preview(showBackground = true)
 @Composable
 fun QuizPreview(){
-    Quiz()
+    Quiz(navController = null)
 }

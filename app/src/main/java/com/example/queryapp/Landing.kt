@@ -18,10 +18,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 
 @Composable
-fun Landing() {
+fun Landing(navController: NavController?) {
     Column(
         modifier = Modifier
             .background(colorResource(R.color.medium_purple))
@@ -39,12 +40,12 @@ fun Landing() {
                 .padding(vertical = 80.dp)
         )
         Spacer(modifier = Modifier.height(10.dp))
-        GetStarted()
+        GetStarted(navController)
     }
 }
 
 @Composable
-fun GetStarted(){
+fun GetStarted(navController: NavController?){
     Box(
         modifier = Modifier
             .background(colorResource(R.color.light_lavendar))
@@ -68,7 +69,9 @@ fun GetStarted(){
             )
             Spacer(modifier =  Modifier.height(10.dp))
             Button(
-                onClick = {},
+                onClick = {
+                    navController?.navigate(route = ScreenHolder.Quiz.route)
+                },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier
                     .height(130.dp)
@@ -148,5 +151,5 @@ fun GetStarted(){
 @Composable
 @Preview(showBackground = true)
 fun LandingPreview(){
-    Landing()
+    Landing(navController = null)
 }

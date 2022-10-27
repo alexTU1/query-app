@@ -16,14 +16,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun QuizEnd(){
-    PageScreen()
+fun QuizEnd(navController: NavController?) {
+    PageScreen(navController)
 }
 
 @Composable
-fun PageScreen(){
+fun PageScreen(navController: NavController?) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,14 +51,14 @@ fun PageScreen(){
                 .background(colorResource(R.color.light_purple)),
             contentAlignment =  Alignment.Center
         ) {
-            NextSelectionContent()
+            NextSelectionContent(navController)
         }
 
     }
 }
 
 @Composable
-fun ScoreContent(){
+fun ScoreContent() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -84,7 +85,7 @@ fun ScoreContent(){
 }
 
 @Composable
-fun NextSelectionContent(){
+fun NextSelectionContent(navController: NavController?) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.width(300.dp)
@@ -101,7 +102,13 @@ fun NextSelectionContent(){
             color = colorResource(R.color.white)
         )
         Button(
-            onClick = {},
+            onClick = {
+                navController?.navigate(route = ScreenHolder.Quiz.route){
+                    popUpTo(ScreenHolder.Quiz.route){
+                        inclusive = true
+                    }
+                }
+            },
             modifier = Modifier
                 .width(300.dp)
                 .padding(vertical = 15.dp),
@@ -115,7 +122,13 @@ fun NextSelectionContent(){
             )
         }
         Button(
-            onClick = {},
+            onClick = {
+                navController?.navigate(route = ScreenHolder.Landing.route) {
+                    popUpTo(ScreenHolder.Landing.route) {
+                        inclusive = true
+                    }
+                }
+            },
             modifier = Modifier.width(300.dp),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = colorResource(R.color.medium_purple),
@@ -130,6 +143,6 @@ fun NextSelectionContent(){
 }
 @Preview(showBackground = true)
 @Composable
-fun QuizEndPreview(){
-    QuizEnd()
+fun QuizEndPreview() {
+    QuizEnd(navController = null)
 }
