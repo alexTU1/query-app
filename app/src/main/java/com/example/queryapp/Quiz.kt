@@ -43,6 +43,7 @@ fun Quiz(navController: NavController?) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .fillMaxHeight()
                 .background(colorResource(R.color.medium_purple))
         ){
             Text(
