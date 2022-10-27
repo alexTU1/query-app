@@ -5,6 +5,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
+// Navigation implementation based on "Navigation Basics in Jetpack Compose" by Stevdza_San
+// https://www.youtube.com/watch?v=glyqjzkc4fk
+
 @Composable
 fun setUpNavGraph(
     navController: NavHostController
