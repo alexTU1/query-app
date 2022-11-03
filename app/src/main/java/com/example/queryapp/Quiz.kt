@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -43,23 +44,35 @@ fun Quiz(navController: NavController?) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .fillMaxHeight()
                 .background(colorResource(R.color.medium_purple))
         ){
-            Text(
-                text = "Query: 1/10",
-                fontSize = 25.sp,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.white),
-                modifier = Modifier
-                    .padding(10.dp)
-            )
+            Row{
+                Text(
+                    text = "Query: 1/10",
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(R.color.white),
+                    modifier = Modifier
+                        .padding(25.dp)
+                )
+                LinearProgressIndicator(
+                    progress = 0.1F,
+                    color=colorResource(R.color.white),
+                    modifier = Modifier
+                        .fillMaxWidth(0.99F)
+                        .padding(25.dp)
+                        .size(25.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                )
+            }
             Text(
                 text = stringResource(R.string.sample_question),
                 color = colorResource(R.color.white),
                 fontSize = 19.sp,
                 modifier = Modifier
                     .fillMaxWidth(0.95F)
-                    .padding(20.dp)
+                    .padding(20.dp, 0.dp, 20.dp, 10.dp)
             )
             AnswerOption(navController,"A", stringResource(R.string.correct_answer))
             AnswerOption(navController,"B", stringResource(R.string.incorrect_answer))

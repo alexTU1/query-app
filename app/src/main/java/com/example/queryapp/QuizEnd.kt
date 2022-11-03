@@ -46,7 +46,7 @@ fun PageScreen(navController: NavController?) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp)
+                .fillMaxHeight()
                 .clip(RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
                 .background(colorResource(R.color.light_purple)),
             contentAlignment =  Alignment.Center

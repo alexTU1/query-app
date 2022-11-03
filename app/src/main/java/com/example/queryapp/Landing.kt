@@ -97,7 +97,9 @@ fun GetStarted(navController: NavController?){
                 )
             }
             Button(
-                onClick = {},
+                onClick = {
+                    navController?.navigate(route = ScreenHolder.Quiz.route)
+                },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier
                     .height(130.dp)
@@ -121,7 +123,9 @@ fun GetStarted(navController: NavController?){
                     color = Color.White)
             }
             Button(
-                onClick = {},
+                onClick = {
+                    navController?.navigate(route = ScreenHolder.Quiz.route)
+                },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier
                     .height(130.dp)
