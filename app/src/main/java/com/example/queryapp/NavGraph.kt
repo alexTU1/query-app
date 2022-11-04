@@ -20,6 +20,12 @@ fun setUpNavGraph(
         }
 
         composable(
+            route = ScreenHolder.SubjectSelection.route
+        ) {
+            SubjectSelection(navController)
+        }
+
+        composable(
             route = ScreenHolder.Quiz.route
         ) {
             Quiz(navController)

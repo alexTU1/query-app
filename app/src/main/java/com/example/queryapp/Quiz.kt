@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,23 +79,25 @@ fun AnswerOption(navController: NavController?, letter: String, optionString: St
         },
         modifier = Modifier
             .fillMaxWidth(0.99F)
-            .padding(10.dp),
+            .padding(10.dp)
+            .clip(RoundedCornerShape(20.dp)),
         colors = ButtonDefaults.buttonColors(colorResource(R.color.light_purple))
     ){
-        Row{
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ){
             Box(
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape)
                     .background(colorResource(R.color.white))
-                    .padding(20.dp)
+                    .padding(20.dp),
+                contentAlignment = Alignment.Center
             ){
                 Text(
                     text= letter,
                     fontSize = 18.sp,
-                    color = colorResource(R.color.black),
-
-
+                    color = colorResource(R.color.black)
                     )
             }
             Text(

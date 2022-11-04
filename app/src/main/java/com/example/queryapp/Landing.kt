@@ -64,13 +64,13 @@ fun GetStarted(navController: NavController?){
                 text = stringResource(R.string.get_started),
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.Serif,
+                //fontFamily = FontFamily.Serif,
                 color = Color.Gray
             )
             Spacer(modifier =  Modifier.height(10.dp))
             Button(
                 onClick = {
-                    navController?.navigate(route = ScreenHolder.Quiz.route)
+                    navController?.navigate(route = ScreenHolder.SubjectSelection.route)
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier
@@ -91,8 +91,8 @@ fun GetStarted(navController: NavController?){
                 Text(
                     text = stringResource(R.string.beginner),
                     fontSize = 28.sp,
-                    fontWeight = FontWeight.Thin,
-                    fontFamily = FontFamily.Serif,
+                    fontWeight = FontWeight.Normal,
+                    //fontFamily = FontFamily.Serif,
                     color = Color.White
                 )
             }
@@ -116,8 +116,8 @@ fun GetStarted(navController: NavController?){
                 Text(
                     text = stringResource(R.string.intermediate),
                     fontSize = 28.sp,
-                    fontWeight = FontWeight.Thin,
-                    fontFamily = FontFamily.Serif,
+                    fontWeight = FontWeight.Normal,
+                    //fontFamily = FontFamily.Serif,
                     color = Color.White)
             }
             Button(
@@ -140,8 +140,8 @@ fun GetStarted(navController: NavController?){
                 Text(
                     text = stringResource(R.string.advanced),
                     fontSize = 28.sp,
-                    fontWeight = FontWeight.Thin,
-                    fontFamily = FontFamily.Serif,
+                    fontWeight = FontWeight.Normal,
+                   // fontFamily = FontFamily.Serif,
                     color = Color.White)
             }
         }
