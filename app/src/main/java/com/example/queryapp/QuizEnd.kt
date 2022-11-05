@@ -28,6 +28,7 @@ fun PageScreen(navController: NavController?) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .fillMaxHeight()
             .background(colorResource(R.color.dark_purple)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

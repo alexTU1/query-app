@@ -107,23 +107,25 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, letter: Stri
         },
         modifier = Modifier
             .fillMaxWidth(0.99F)
-            .padding(10.dp),
+            .padding(10.dp)
+            .clip(RoundedCornerShape(20.dp)),
         colors = ButtonDefaults.buttonColors(colorResource(R.color.light_purple))
     ){
-        Row{
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ){
             Box(
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape)
                     .background(colorResource(R.color.white))
-                    .padding(20.dp)
+                    .padding(20.dp),
+                contentAlignment = Alignment.Center
             ){
                 Text(
                     text= letter,
                     fontSize = 18.sp,
-                    color = colorResource(R.color.black),
-
-
+                    color = colorResource(R.color.black)
                     )
             }
             Text(
