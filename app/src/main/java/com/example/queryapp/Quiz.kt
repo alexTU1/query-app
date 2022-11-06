@@ -1,5 +1,6 @@
 package com.example.queryapp
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
@@ -7,7 +8,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,9 +19,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.queryapp.impl.QuizRepository
 
 @Composable
 fun Quiz(navController: NavController?) {
+
+    val qr = QuizRepository()
+
+    val questionNum = remember{mutableStateOf(qr.getQuestionNum().toString())}
+    Log.d(questionNum.toString(), " ")
+
+    val progress: MutableState<Float> = remember{mutableStateOf(0.1F/qr.getQuestionNum())}
+    Log.d(progress.toString(), " ")
+
     Column(
         modifier = Modifier
             .background(colorResource(R.color.medium_purple))
@@ -49,7 +60,7 @@ fun Quiz(navController: NavController?) {
         ){
             Row{
                 Text(
-                    text = "Query: 1/10",
+                    text = "Question: ${questionNum.value}/10",
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     color = colorResource(R.color.white),
@@ -57,7 +68,7 @@ fun Quiz(navController: NavController?) {
                         .padding(25.dp)
                 )
                 LinearProgressIndicator(
-                    progress = 0.1F,
+                    progress = progress.value,
                     color=colorResource(R.color.white),
                     modifier = Modifier
                         .fillMaxWidth(0.99F)
@@ -74,19 +85,25 @@ fun Quiz(navController: NavController?) {
                     .fillMaxWidth(0.95F)
                     .padding(20.dp, 0.dp, 20.dp, 10.dp)
             )
-            AnswerOption(navController,"A", stringResource(R.string.correct_answer))
-            AnswerOption(navController,"B", stringResource(R.string.incorrect_answer))
-            AnswerOption(navController,"C", stringResource(R.string.incorrect_answer))
-            AnswerOption(navController,"D", stringResource(R.string.incorrect_answer))
+            AnswerOption(qr, navController,"A", stringResource(R.string.correct_answer))
+            AnswerOption(qr, navController,"B", stringResource(R.string.incorrect_answer))
+            AnswerOption(qr, navController,"C", stringResource(R.string.incorrect_answer))
+            AnswerOption(qr, navController,"D", stringResource(R.string.incorrect_answer))
         }
     }
 }
 
 @Composable
-fun AnswerOption(navController: NavController?, letter: String, optionString: String){
+fun AnswerOption(qr: QuizRepository, navController: NavController?, letter: String, optionString: String){
     Button(
         onClick = {
-            navController?.navigate(route = ScreenHolder.QuizEnd.route)
+            if(qr.getQuestionNum() == 10) {
+                qr.reset()
+                navController?.navigate(route = ScreenHolder.QuizEnd.route)
+            }
+            else {
+                qr.nextQuestion()
+            }
         },
         modifier = Modifier
             .fillMaxWidth(0.99F)
