@@ -39,7 +39,4 @@ class QuizRepository : ViewModel() {
         progress.value = 0.0F
     }
 
-    fun newQuiz() {
-
-    }
 }
