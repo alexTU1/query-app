@@ -3,12 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="../../../../../../../layout/compose-model-1666824021031.xml" value="0.1" />
         <entry key="../../../../../../../layout/compose-model-1666824126182.xml" value="0.1" />
         <entry key="../../../../../../../layout/compose-model-1666824126675.xml" value="0.10270270270270271" />
         <entry key="../../../../../../../layout/compose-model-1667508174583.xml" value="0.1" />
+=======
+>>>>>>> acommo1_branch
         <entry key="../../../../layout/compose-model-1666829917353.xml" value="0.26666666666666666" />
         <entry key="../../../../layout/compose-model-1666829932269.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1666830482419.xml" value="0.1" />
+        <entry key="../../../../layout/compose-model-1666830524997.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1666862006409.xml" value="0.22685185185185186" />
+        <entry key="../../../../layout/compose-model-1667520930650.xml" value="0.1" />
+        <entry key="../../../../layout/compose-model-1667521438489.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1667521455605.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1667521521624.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1667601917746.xml" value="0.25" />
       </map>
     </option>
   </component>
