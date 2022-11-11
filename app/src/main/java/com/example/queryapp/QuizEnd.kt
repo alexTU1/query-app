@@ -16,15 +16,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.queryapp.impl.QuizRepository
 
 @Composable
-fun QuizEnd(navController: NavController?) {
-    PageScreen(navController)
+fun QuizEnd(navController: NavController?, qr: QuizRepository) {
+    PageScreen(navController, qr)
 }
 
 @Composable
-fun PageScreen(navController: NavController?) {
+fun PageScreen(navController: NavController?, qr: QuizRepository) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,7 +43,7 @@ fun PageScreen(navController: NavController?) {
                 .background(colorResource(R.color.medium_purple)),
             contentAlignment =  Alignment.Center
         ) {
-            ScoreContent()
+            ScoreContent(qr)
         }
         Spacer(modifier = Modifier.height(60.dp))
         Box(
@@ -59,7 +61,7 @@ fun PageScreen(navController: NavController?) {
 }
 
 @Composable
-fun ScoreContent() {
+fun ScoreContent(qr: QuizRepository) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -71,7 +73,7 @@ fun ScoreContent() {
         )
         Text(
             modifier = Modifier.padding(0.dp),
-            text = "8/10",
+            text = "${qr.getQuizResult()}/10",
             fontSize = 80.sp,
             fontWeight = FontWeight.Bold,
             color = colorResource(R.color.white)
@@ -145,5 +147,5 @@ fun NextSelectionContent(navController: NavController?) {
 @Preview(showBackground = true)
 @Composable
 fun QuizEndPreview() {
-    QuizEnd(navController = null)
+    QuizEnd(navController = null, qr = viewModel())
 }
