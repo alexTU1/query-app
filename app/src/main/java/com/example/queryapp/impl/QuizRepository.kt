@@ -9,7 +9,7 @@ class QuizRepository : ViewModel() {
 
     private val progress: MutableState<Float> = mutableStateOf(0.0F)
 
-    private val numCorrect: MutableState<Int> = mutableStateOf(0)
+    private val numCorrect: MutableState<Int> = mutableStateOf(1)
 
     init{}
 
@@ -27,7 +27,7 @@ class QuizRepository : ViewModel() {
     }
 
     fun addPoint() {
-        numCorrect.value++
+        numCorrect.value = numCorrect.value + 1
     }
 
     fun getQuizResult(): Int {
@@ -37,6 +37,10 @@ class QuizRepository : ViewModel() {
     fun reset() {
         question_Num.value = 1
         progress.value = 0.0F
+    }
+
+    fun resetNumCorrect(){
+        numCorrect.value = 0
     }
 
 }

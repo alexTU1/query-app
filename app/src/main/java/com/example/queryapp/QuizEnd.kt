@@ -54,7 +54,7 @@ fun PageScreen(navController: NavController?, qr: QuizRepository) {
                 .background(colorResource(R.color.light_purple)),
             contentAlignment =  Alignment.Center
         ) {
-            NextSelectionContent(navController)
+            NextSelectionContent(navController, qr)
         }
 
     }
@@ -88,7 +88,7 @@ fun ScoreContent(qr: QuizRepository) {
 }
 
 @Composable
-fun NextSelectionContent(navController: NavController?) {
+fun NextSelectionContent(navController: NavController?, qr: QuizRepository) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.width(300.dp)
@@ -111,6 +111,7 @@ fun NextSelectionContent(navController: NavController?) {
                         inclusive = true
                     }
                 }
+                qr.resetNumCorrect()
             },
             modifier = Modifier
                 .width(300.dp)
