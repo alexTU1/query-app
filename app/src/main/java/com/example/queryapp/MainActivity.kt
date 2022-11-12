@@ -37,48 +37,6 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun MainContent(qr: QuizRepository){
-//        if (qr.isBeginnerDifficultyClicked()){
-//            setContent{
-//                QueryappBeginnerTheme {
-//
-//                    navController = rememberNavController()
-//                    setUpNavGraph(navController = navController)
-//
-//                }
-//            }
-//
-//        }
-//
-//       else if (qr.isIntermediateDifficultyClicked()){
-//           setContent{
-//               QueryappIntermediateTheme {
-//
-//                   navController = rememberNavController()
-//                   setUpNavGraph(navController = navController)
-//
-//               }
-//           }
-//
-//        }
-//
-//        else if (qr.isAdvancedDifficultyClicked()){
-//            setContent{
-//                QueryappAdvancedTheme {
-//
-//                    navController = rememberNavController()
-//                    setUpNavGraph(navController = navController)
-//
-//                }
-//            }
-//
-//        }
-
-
-
-    }
-
-    @Composable
     fun Greeting(name: String) {
         Text(text = "Hello $name")
     }

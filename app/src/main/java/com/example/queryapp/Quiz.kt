@@ -23,27 +23,33 @@ import com.example.queryapp.impl.QuizRepository
 fun Quiz(navController: NavController?, qr: QuizRepository) {
 
     //val qr: QuizRepository = viewModel()
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(R.string.quiz_subject),
+                         color = MaterialTheme.colors.primary,
+                        fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold)
 
+                        },
+                backgroundColor = MaterialTheme.colors.secondary,
+                modifier = Modifier.height(80.dp)
+            )
+        }
+    ) {
+        QuizPageView(navController = navController, qr = qr)
+    }
+
+
+}
+
+@Composable
+fun QuizPageView(navController: NavController?, qr: QuizRepository){
     Column(
         modifier = Modifier
             .background(MaterialTheme.colors.primaryVariant)
     ) {
-        Box(
-            modifier = Modifier
-                .wrapContentHeight(Alignment.CenterVertically)
-                .background(MaterialTheme.colors.secondary)
-        ){
-            Text(
-                text = stringResource(R.string.quiz_subject),
-                color = MaterialTheme.colors.primary,
-                fontSize = 50.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.15F)
-                    .padding(top = 20.dp)
-            )
-        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()

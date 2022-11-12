@@ -3,10 +3,7 @@ package com.example.queryapp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +21,18 @@ import com.example.queryapp.impl.QuizRepository
 
 @Composable
 fun QuizEnd(navController: NavController?, qr: QuizRepository) {
-    PageScreen(navController, qr)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {},
+                backgroundColor = MaterialTheme.colors.primary,
+                modifier = Modifier.height(80.dp),
+                elevation = 0.dp
+            )
+        }
+    ) {
+        PageScreen(navController, qr)
+    }
 }
 
 @Composable
@@ -36,7 +44,7 @@ fun PageScreen(navController: NavController?, qr: QuizRepository) {
             .background(MaterialTheme.colors.primary),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(140.dp))
+        Spacer(modifier = Modifier.height(90.dp))
         Box(
             modifier = Modifier
                 .width(300.dp)
@@ -78,7 +86,7 @@ fun ScoreContent(qr: QuizRepository) {
             text = "${qr.getQuizResult()}/10",
             fontSize = 80.sp,
             fontWeight = FontWeight.Bold,
-            color = colorResource(R.color.white)
+            color = colorResource(R.color.white),
         )
         if(qr.getQuizResult() == 10){
             Text(
@@ -164,6 +172,7 @@ fun NextSelectionContent(navController: NavController?, qr: QuizRepository) {
                         inclusive = true
                     }
                 }
+                qr.resetNumCorrect()
             },
             modifier = Modifier.width(300.dp),
             colors = ButtonDefaults.buttonColors(

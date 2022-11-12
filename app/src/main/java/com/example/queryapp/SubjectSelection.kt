@@ -4,10 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +22,28 @@ import androidx.navigation.NavController
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SubjectSelection(navController: NavController?){
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(R.string.subject_selection),
+                        color = MaterialTheme.colors.primary,
+                        fontSize = 40.sp,
+                        fontWeight = FontWeight.Bold)
+
+                },
+                backgroundColor = MaterialTheme.colors.secondary,
+                modifier = Modifier.height(80.dp)
+            )
+        }
+    ) {
+        SubjectSelectionPageView(navController = navController)
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun SubjectSelectionPageView(navController: NavController?){
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -32,28 +51,11 @@ fun SubjectSelection(navController: NavController?){
             .background(MaterialTheme.colors.primary),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .wrapContentHeight(Alignment.CenterVertically)
-                .background(MaterialTheme.colors.secondary)
-        ){
-            Text(
-                text = stringResource(R.string.subject_selection),
-                color = MaterialTheme.colors.primary,
-                fontSize = 50.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.15F)
-                    .padding(top = 20.dp)
-            )
-        }
         SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
         SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
         SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
         SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
     }
-
 }
 
 @OptIn(ExperimentalMaterialApi::class)

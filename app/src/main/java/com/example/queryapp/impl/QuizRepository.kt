@@ -55,9 +55,9 @@ class QuizRepository : ViewModel() {
         advancedDifficultyClick.value
         return beginnerDifficultyClick.value
     }
-    fun getBClickVal():Boolean{
-        return beginnerDifficultyClick.value
-    }
+//    fun getBClickVal():Boolean{
+//        return beginnerDifficultyClick.value
+//    }
 
     fun isIntermediateDifficultyClicked(): Boolean {
         intermediateDifficultyClick.value = !intermediateDifficultyClick.value
