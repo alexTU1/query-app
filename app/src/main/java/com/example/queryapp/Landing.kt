@@ -1,5 +1,6 @@
 package com.example.queryapp
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,11 +19,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.queryapp.impl.QuizRepository
 
 
 @Composable
-fun Landing(navController: NavController?) {
+fun Landing(navController: NavController?, qr: QuizRepository) {
     Column(
         modifier = Modifier
             .background(colorResource(R.color.medium_purple))
@@ -40,12 +43,12 @@ fun Landing(navController: NavController?) {
                 .padding(vertical = 80.dp)
         )
         Spacer(modifier = Modifier.height(10.dp))
-        GetStarted(navController)
+        GetStarted(navController, qr)
     }
 }
 
 @Composable
-fun GetStarted(navController: NavController?){
+fun GetStarted(navController: NavController?, qr: QuizRepository){
     Box(
         modifier = Modifier
             .background(colorResource(R.color.light_lavendar))
@@ -71,6 +74,11 @@ fun GetStarted(navController: NavController?){
             Button(
                 onClick = {
                     navController?.navigate(route = ScreenHolder.SubjectSelection.route)
+                    qr.isBeginnerDifficultyClicked()
+                    //logcat check
+                    Log.d("Beginner: ", qr.isBeginnerDifficultyClicked().toString())
+                    Log.d("Intermediate: ", qr.isIntermediateDifficultyClicked().toString())
+                    Log.d("Advanced: ", qr.isAdvancedDifficultyClicked().toString())
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier
@@ -99,6 +107,11 @@ fun GetStarted(navController: NavController?){
             Button(
                 onClick = {
                     navController?.navigate(route = ScreenHolder.SubjectSelection.route)
+                    qr.isIntermediateDifficultyClicked()
+                    //logcat check
+                    Log.d("Beginner: ", qr.isBeginnerDifficultyClicked().toString())
+                    Log.d("Intermediate: ", qr.isIntermediateDifficultyClicked().toString())
+                    Log.d("Advanced: ", qr.isAdvancedDifficultyClicked().toString())
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier
@@ -125,6 +138,11 @@ fun GetStarted(navController: NavController?){
             Button(
                 onClick = {
                     navController?.navigate(route = ScreenHolder.SubjectSelection.route)
+                    qr.isAdvancedDifficultyClicked()
+                    //logcat check
+                    Log.d("Beginner: ", qr.isBeginnerDifficultyClicked().toString())
+                    Log.d("Intermediate: ", qr.isIntermediateDifficultyClicked().toString())
+                    Log.d("Advanced: ", qr.isAdvancedDifficultyClicked().toString())
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier
@@ -148,12 +166,14 @@ fun GetStarted(navController: NavController?){
                    // fontFamily = FontFamily.Serif,
                     color = Color.White)
             }
+
         }
+
     }
 }
 
 @Composable
 @Preview(showBackground = true)
 fun LandingPreview(){
-    Landing(navController = null)
+    Landing(navController = null, qr = viewModel())
 }

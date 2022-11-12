@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,17 +29,17 @@ fun SubjectSelection(navController: NavController?){
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(colorResource(R.color.dark_purple)),
+            .background(MaterialTheme.colors.primary),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
                 .wrapContentHeight(Alignment.CenterVertically)
-                .background(colorResource(R.color.light_purple))
+                .background(MaterialTheme.colors.secondary)
         ){
             Text(
                 text = stringResource(R.string.subject_selection),
-                color = colorResource(R.color.dark_purple),
+                color = MaterialTheme.colors.primary,
                 fontSize = 50.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -86,7 +87,7 @@ fun SelectionRow(
                             }
                         }
                         ),
-                backgroundColor = colorResource(R.color.medium_purple),
+                backgroundColor = MaterialTheme.colors.primaryVariant,
                 elevation = 20.dp
 
             ) {
@@ -118,7 +119,7 @@ fun SelectionRow(
                             }
                         }
                     ),
-                backgroundColor = colorResource(R.color.medium_purple)
+                backgroundColor = MaterialTheme.colors.primaryVariant
 
             ) {
                 Column(

@@ -19,7 +19,7 @@ fun setUpNavGraph(
         composable(
             route = ScreenHolder.Landing.route
         ) {
-            Landing(navController)
+            Landing(navController, qr)
         }
 
         composable(

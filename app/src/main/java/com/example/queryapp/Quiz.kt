@@ -3,10 +3,7 @@ package com.example.queryapp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,16 +26,16 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
 
     Column(
         modifier = Modifier
-            .background(colorResource(R.color.medium_purple))
+            .background(MaterialTheme.colors.primaryVariant)
     ) {
         Box(
             modifier = Modifier
                 .wrapContentHeight(Alignment.CenterVertically)
-                .background(colorResource(R.color.light_purple))
+                .background(MaterialTheme.colors.secondary)
         ){
             Text(
                 text = stringResource(R.string.quiz_subject),
-                color = colorResource(R.color.dark_purple),
+                color = MaterialTheme.colors.primary,
                 fontSize = 50.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -51,7 +48,7 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .background(colorResource(R.color.medium_purple))
+                .background(MaterialTheme.colors.primaryVariant)
         ){
             Row{
                 Text(
@@ -98,8 +95,14 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, letter: Stri
                     qr.addPoint()
                 }
                 qr.nextQuestion()
+
             }
             else {
+                /*when user presses back button they will exit app...
+                we need to somehow implement a way for them to press back button at anytime
+                during the quiz taking process and take them back to the landing or subject
+                selection page*/
+
                 navController?.navigate(route = ScreenHolder.QuizEnd.route)
                 qr.reset()
             }
@@ -108,7 +111,7 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, letter: Stri
             .fillMaxWidth(0.99F)
             .padding(10.dp)
             .clip(RoundedCornerShape(20.dp)),
-        colors = ButtonDefaults.buttonColors(colorResource(R.color.light_purple))
+        colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary)
     ){
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -128,9 +131,9 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, letter: Stri
                 )
             }
             Text(
-                text =  stringResource(R.string.incorrect_answer),
+                text =  optionString,
                 fontSize = 15.sp,
-                color = colorResource(R.color.dark_purple),
+                color = MaterialTheme.colors.primary,
                 modifier = Modifier
                     .padding(15.dp)
             )

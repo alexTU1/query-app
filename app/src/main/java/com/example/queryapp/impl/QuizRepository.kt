@@ -11,6 +11,10 @@ class QuizRepository : ViewModel() {
 
     private val numCorrect: MutableState<Int> = mutableStateOf(1)
 
+    private val beginnerDifficultyClick: MutableState<Boolean> = mutableStateOf(false)
+    private val intermediateDifficultyClick: MutableState<Boolean> = mutableStateOf(false)
+    private val advancedDifficultyClick: MutableState<Boolean> = mutableStateOf(false)
+
     init{}
 
     fun getQuestionNum(): Int {
@@ -42,5 +46,37 @@ class QuizRepository : ViewModel() {
     fun resetNumCorrect(){
         numCorrect.value = 0
     }
+
+
+    //for app theme changes
+    fun isBeginnerDifficultyClicked(): Boolean {
+        beginnerDifficultyClick.value = !beginnerDifficultyClick.value
+        intermediateDifficultyClick.value
+        advancedDifficultyClick.value
+        return beginnerDifficultyClick.value
+    }
+    fun getBClickVal():Boolean{
+        return beginnerDifficultyClick.value
+    }
+
+    fun isIntermediateDifficultyClicked(): Boolean {
+        intermediateDifficultyClick.value = !intermediateDifficultyClick.value
+        beginnerDifficultyClick.value
+        advancedDifficultyClick.value
+        return intermediateDifficultyClick.value
+    }
+//    fun getIClickVal():Boolean{
+//        return intermediateDifficultyClick.value
+//    }
+
+    fun isAdvancedDifficultyClicked(): Boolean{
+        advancedDifficultyClick.value = !advancedDifficultyClick.value
+        beginnerDifficultyClick.value
+        intermediateDifficultyClick.value
+        return advancedDifficultyClick.value
+    }
+//    fun getAClickVal():Boolean{
+//        return advancedDifficultyClick.value
+//    }
 
 }
