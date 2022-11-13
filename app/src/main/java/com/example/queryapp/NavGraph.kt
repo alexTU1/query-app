@@ -1,16 +1,19 @@
 package com.example.queryapp
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.queryapp.impl.QuizRepository
 
 // Navigation implementation based on "Navigation Basics in Jetpack Compose" by Stevdza_San
 // https://www.youtube.com/watch?v=glyqjzkc4fk
 
 @Composable
 fun setUpNavGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    qr: QuizRepository = viewModel()
 ){
     NavHost(navController = navController, startDestination = ScreenHolder.Landing.route){
         composable(
@@ -20,15 +23,21 @@ fun setUpNavGraph(
         }
 
         composable(
+            route = ScreenHolder.SubjectSelection.route
+        ) {
+            SubjectSelection(navController)
+        }
+
+        composable(
             route = ScreenHolder.Quiz.route
         ) {
-            Quiz(navController)
+            Quiz(navController, qr)
         }
 
         composable(
             route = ScreenHolder.QuizEnd.route
         ) {
-            QuizEnd(navController)
+            QuizEnd(navController, qr)
         }
 
     }
