@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.queryapp.impl.QuizRepository
+import com.example.queryapp.navigation.ScreenHolder
 
 @Composable
 fun QuizEnd(navController: NavController?, qr: QuizRepository) {

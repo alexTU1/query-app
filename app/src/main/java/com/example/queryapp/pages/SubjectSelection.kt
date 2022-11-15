@@ -11,13 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.queryapp.navigation.ScreenHolder
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -48,13 +48,14 @@ fun SubjectSelectionPageView(navController: NavController?){
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(MaterialTheme.colors.primary),
+            .background(MaterialTheme.colors.primary)
+            .padding(vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
-        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
-        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
-        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
+        SelectionRow(subject1 = "Java Basics", subject2 = "Object Oriented Programming Basics", navController, ScreenHolder.Quiz.route)
+        SelectionRow(subject1 = "Object Oriented Programming Pillars", subject2 = "Object Oriented Design Principles", navController, ScreenHolder.Quiz.route)
+//        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
+//        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
     }
 }
 
@@ -67,7 +68,7 @@ fun SelectionRow(
     screenHolder: String //route to quiz
 ){
     Column(
-        modifier = Modifier.padding(horizontal = 20.dp, 10.dp)
+        modifier = Modifier.padding(horizontal = 10.dp, 10.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

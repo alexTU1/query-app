@@ -21,3 +21,5 @@ val LightBlue = Color(0xFFE2F6FF)
 val DarkOrange = Color(0xFF932C20)
 val MediumOrange = Color(0xFFFF7F63)
 val LightOrange = Color(0xFFffc8bb)
+
+val SubmitBlue = Color(0xFF48BAFB)

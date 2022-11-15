@@ -1,13 +1,16 @@
 package com.example.queryapp
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -17,29 +20,59 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.queryapp.impl.QuizRepository
+import com.example.queryapp.navigation.ScreenHolder
+import kotlinx.coroutines.launch
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Quiz(navController: NavController?, qr: QuizRepository) {
-
+    val mBSState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val rCRS = rememberCoroutineScope()
+    val isSelected = rememberSaveable{ mutableStateOf(true) }
     //val qr: QuizRepository = viewModel()
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(R.string.quiz_subject),
-                         color = MaterialTheme.colors.primary,
-                        fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold)
 
-                        },
-                backgroundColor = MaterialTheme.colors.secondary,
-                modifier = Modifier.height(80.dp)
-            )
+    ModalBottomSheetLayout(
+        sheetContent = { MBSubmitButton(navController, isSelected) },
+        sheetBackgroundColor = Color.Transparent,
+        sheetElevation = 10.dp,
+        sheetState = mBSState,
+        modifier = Modifier.fillMaxSize()
+    ){
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(text = stringResource(R.string.quiz_subject),
+                            color = MaterialTheme.colors.primary,
+                            fontSize = 40.sp,
+                            fontWeight = FontWeight.Bold)
+
+                    },
+                    actions = {
+//                              if(qr.getProgress() > 0.9F){
+//                                  rCRS.launch {
+//                                      mBSState.show()
+//                                  }
+//                              }
+//                              else{
+//                                  rCRS.launch {
+//                                      mBSState.hide()
+//                                  }
+//                              }
+
+                    },
+                    backgroundColor = MaterialTheme.colors.secondary,
+                    modifier = Modifier.height(80.dp)
+                )
+            }
+        ) {
+            QuizPageView(navController = navController, qr = qr)
         }
-    ) {
-        QuizPageView(navController = navController, qr = qr)
     }
+
+
 
 
 }
@@ -96,20 +129,32 @@ fun QuizPageView(navController: NavController?, qr: QuizRepository){
 fun AnswerOption(qr: QuizRepository, navController: NavController?, letter: String, optionString: String, isCorrect: Boolean){
     Button(
         onClick = {
+            //if we are adding a point for every correct answer
+            //for every question LESS THAN 10
+            //it will be impossible to get a perfect score because
+            //the 10th point never counts with these conditions
             if(qr.getQuestionNum() < 10) {
                 if(isCorrect){
                     qr.addPoint()
                 }
                 qr.nextQuestion()
-
-            }
-            else {
+                //solution to result counting issue ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                if(isCorrect && qr.getQuestionNum() == 10){
+                    qr.addPoint()
+                }
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            } else {
                 /*when user presses back button they will exit app...
                 we need to somehow implement a way for them to press back button at anytime
                 during the quiz taking process and take them back to the landing or subject
                 selection page*/
 
+
+                //submit button doesn't have a chance to pop up after 10th question is answered
+                //because after 10th question is answered it automatically goes to the
+                //result page.
                 navController?.navigate(route = ScreenHolder.QuizEnd.route)
+                //qr.addPoint()
                 qr.reset()
             }
         },
