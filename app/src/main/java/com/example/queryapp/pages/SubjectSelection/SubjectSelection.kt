@@ -92,11 +92,7 @@ fun SubjectRow(
                     .clip(RoundedCornerShape(20.dp))
                     .clickable (
                         onClick = {
-                            navController?.navigate(route = ScreenHolder.Quiz.route) {
-                                popUpTo(ScreenHolder.Landing.route) {
-                                    inclusive = true
-                                }
-                            }
+                            navController?.navigate(route = ScreenHolder.Quiz.route)
                         }
                         ),
                 backgroundColor = MaterialTheme.colors.primaryVariant,
