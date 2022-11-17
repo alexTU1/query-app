@@ -3,12 +3,12 @@ package com.example.queryapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.queryapp.ui.theme.QueryappTheme
+import com.example.queryapp.ui.theme.QueryappBeginnerTheme
+
 
 
 class MainActivity : ComponentActivity() {
@@ -18,14 +18,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            QueryappTheme {
-
-
+            QueryappBeginnerTheme {
                 navController = rememberNavController()
                 setUpNavGraph(navController = navController)
 
             }
+
         }
+
     }
 
 
@@ -33,7 +33,6 @@ class MainActivity : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     fun DefaultPreview() {
-
-
+        QueryappBeginnerTheme {}
     }
 }

@@ -4,55 +4,59 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.queryapp.navigation.ScreenHolder
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SubjectSelection(navController: NavController?){
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(R.string.subject_selection),
+                        color = MaterialTheme.colors.primary,
+                        fontSize = 40.sp,
+                        fontWeight = FontWeight.Bold)
+
+                },
+                backgroundColor = MaterialTheme.colors.secondary,
+                modifier = Modifier.height(80.dp)
+            )
+        }
+    ) {
+        SubjectSelectionPageView(navController = navController)
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun SubjectSelectionPageView(navController: NavController?){
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(colorResource(R.color.dark_purple)),
+            .background(MaterialTheme.colors.primary)
+            .padding(vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .wrapContentHeight(Alignment.CenterVertically)
-                .background(colorResource(R.color.light_purple))
-        ){
-            Text(
-                text = stringResource(R.string.subject_selection),
-                color = colorResource(R.color.dark_purple),
-                fontSize = 50.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.15F)
-                    .padding(top = 20.dp)
-            )
-        }
-        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
-        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
-        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
-        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
+        SelectionRow(subject1 = "Java Basics", subject2 = "Object Oriented Programming Basics", navController, ScreenHolder.Quiz.route)
+        SelectionRow(subject1 = "Object Oriented Programming Pillars", subject2 = "Object Oriented Design Principles", navController, ScreenHolder.Quiz.route)
+//        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
+//        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
     }
-
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -64,7 +68,7 @@ fun SelectionRow(
     screenHolder: String //route to quiz
 ){
     Column(
-        modifier = Modifier.padding(horizontal = 20.dp, 10.dp)
+        modifier = Modifier.padding(horizontal = 10.dp, 10.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -86,7 +90,7 @@ fun SelectionRow(
                             }
                         }
                         ),
-                backgroundColor = colorResource(R.color.medium_purple),
+                backgroundColor = MaterialTheme.colors.primaryVariant,
                 elevation = 20.dp
 
             ) {
@@ -118,7 +122,7 @@ fun SelectionRow(
                             }
                         }
                     ),
-                backgroundColor = colorResource(R.color.medium_purple)
+                backgroundColor = MaterialTheme.colors.primaryVariant
 
             ) {
                 Column(
