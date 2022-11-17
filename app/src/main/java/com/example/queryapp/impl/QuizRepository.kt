@@ -11,7 +11,11 @@ class QuizRepository : ViewModel() {
 
     private val numCorrect: MutableState<Int> = mutableStateOf(0)
 
-    init{}
+    private val questions: List<Question?> = mutableListOf(null)
+
+    init{
+
+    }
 
     fun getQuestionNum(): Int {
         return question_Num.value
