@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.queryapp.ui.theme.QueryappTheme
 
+
 class MainActivity : ComponentActivity() {
 
     lateinit var navController: NavHostController
@@ -19,6 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             QueryappTheme {
 
+
                 navController = rememberNavController()
                 setUpNavGraph(navController = navController)
 
@@ -26,16 +28,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Composable
-    fun Greeting(name: String) {
-        Text(text = "Hello $name")
-    }
+
 
     @Preview(showBackground = true)
     @Composable
     fun DefaultPreview() {
-        QueryappTheme {
-            Greeting("me")
-        }
+
+
     }
 }

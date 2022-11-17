@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
 <<<<<<< HEAD
+<<<<<<< HEAD
+        <entry key="../../../../../layout/compose-model-1666746991188.xml" value="0.51985559566787" />
+=======
+=======
+>>>>>>> 7b01a8eb63e87524a95ac2b2717dd6f4ada85995
         <entry key="../../../../../../../layout/compose-model-1666824021031.xml" value="0.1" />
         <entry key="../../../../../../../layout/compose-model-1666824126182.xml" value="0.1" />
         <entry key="../../../../../../../layout/compose-model-1666824126675.xml" value="0.10270270270270271" />
@@ -12,6 +17,9 @@
 >>>>>>> acommo1_branch
         <entry key="../../../../layout/compose-model-1666829917353.xml" value="0.26666666666666666" />
         <entry key="../../../../layout/compose-model-1666829932269.xml" value="0.25" />
+<<<<<<< HEAD
+>>>>>>> fcfc6300f6ec610bcb26b598b49e2ff9d8e7cc45
+=======
         <entry key="../../../../layout/compose-model-1666830482419.xml" value="0.1" />
         <entry key="../../../../layout/compose-model-1666830524997.xml" value="0.25" />
         <entry key="../../../../layout/compose-model-1666862006409.xml" value="0.22685185185185186" />
@@ -20,6 +28,7 @@
         <entry key="../../../../layout/compose-model-1667521455605.xml" value="0.25" />
         <entry key="../../../../layout/compose-model-1667521521624.xml" value="0.25" />
         <entry key="../../../../layout/compose-model-1667601917746.xml" value="0.25" />
+>>>>>>> 7b01a8eb63e87524a95ac2b2717dd6f4ada85995
       </map>
     </option>
   </component>
