@@ -21,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -51,11 +52,11 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
 
                     },
                     actions = {
-//                              if(qr.getProgress() > 0.9F){
-//                                  rCRS.launch {
-//                                      mBSState.show()
-//                                  }
-//                              }
+                              if(qr.getProgress() == 1.0F){
+                                  rCRS.launch {
+                                      mBSState.show()
+                                  }
+                              }
 //                              else{
 //                                  rCRS.launch {
 //                                      mBSState.hide()

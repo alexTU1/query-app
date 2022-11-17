@@ -3,9 +3,12 @@ package com.example.queryapp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,11 +20,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
+import com.example.queryapp.pages.SubjectSelection.Subject
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SubjectSelection(navController: NavController?){
+fun SubjectSelection(navController: NavController?, qr: QuizRepository){
     Scaffold(
         topBar = {
             TopAppBar(
@@ -37,13 +42,13 @@ fun SubjectSelection(navController: NavController?){
             )
         }
     ) {
-        SubjectSelectionPageView(navController = navController)
+        SubjectSelectionPageView(navController = navController, qr)
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SubjectSelectionPageView(navController: NavController?){
+fun SubjectSelectionPageView(navController: NavController?, qr: QuizRepository){
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,8 +57,11 @@ fun SubjectSelectionPageView(navController: NavController?){
             .padding(vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SelectionRow(subject1 = "Java Basics", subject2 = "Object Oriented Programming Basics", navController, ScreenHolder.Quiz.route)
-        SelectionRow(subject1 = "Object Oriented Programming Pillars", subject2 = "Object Oriented Design Principles", navController, ScreenHolder.Quiz.route)
+        val subjects by qr.subjects
+
+        SelectionRow(subjects = subjects, navController)
+//        SelectionRow(subject1 = "Java Basics", navController, ScreenHolder.Quiz.route)
+//        SelectionRow(subject1 = "Object Oriented Programming Pillars", navController, ScreenHolder.Quiz.route)
 //        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
 //        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
     }
@@ -61,11 +69,11 @@ fun SubjectSelectionPageView(navController: NavController?){
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SelectionRow(
-    subject1: String, //text of left card
-    subject2: String, //text of right card
+fun SubjectRow(
+    idx: Int,
+    subject: Subject,
     navController: NavController?,
-    screenHolder: String //route to quiz
+//    screenHolder: String //route to quiz
 ){
     Column(
         modifier = Modifier.padding(horizontal = 10.dp, 10.dp)
@@ -78,12 +86,13 @@ fun SelectionRow(
         ) {
             Card(
                 modifier = Modifier
-                    .size(width = 180.dp, height = 120.dp)
+                    .fillMaxWidth()
+                    .height(height = 120.dp)
                     .padding(vertical = 5.dp, horizontal = 10.dp)
                     .clip(RoundedCornerShape(20.dp))
                     .clickable (
                         onClick = {
-                            navController?.navigate(route = screenHolder) {
+                            navController?.navigate(route = ScreenHolder.Quiz.route) {
                                 popUpTo(ScreenHolder.Landing.route) {
                                     inclusive = true
                                 }
@@ -99,7 +108,7 @@ fun SelectionRow(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = subject1,
+                        text = subject.name,
                         color = colorResource(R.color.white),
                         fontSize = 20.sp,
                         textAlign = TextAlign.Center
@@ -107,43 +116,55 @@ fun SelectionRow(
                 }
 
             }
-            Card(
-                elevation = 20.dp,
-                modifier = Modifier
-                    .size(width = 180.dp, height = 120.dp)
-                    .padding(vertical = 5.dp, horizontal = 10.dp)
-                    .clip(RoundedCornerShape(20.dp))
-                    .clickable(
-                        onClick = {
-                            navController?.navigate(route = screenHolder) {
-                                popUpTo(ScreenHolder.Landing.route) {
-                                    inclusive = true
-                                }
-                            }
-                        }
-                    ),
-                backgroundColor = MaterialTheme.colors.primaryVariant
-
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = subject2,
-                        color = colorResource(R.color.white),
-                        fontSize = 20.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
+//            Card(
+//                elevation = 20.dp,
+//                modifier = Modifier
+//                    .size(width = 180.dp, height = 120.dp)
+//                    .padding(vertical = 5.dp, horizontal = 10.dp)
+//                    .clip(RoundedCornerShape(20.dp))
+//                    .clickable(
+//                        onClick = {
+//                            navController?.navigate(route = screenHolder) {
+//                                popUpTo(ScreenHolder.Landing.route) {
+//                                    inclusive = true
+//                                }
+//                            }
+//                        }
+//                    ),
+//                backgroundColor = MaterialTheme.colors.primaryVariant
+//
+//            ) {
+//                Column(
+//                    horizontalAlignment = Alignment.CenterHorizontally,
+//                    verticalArrangement = Arrangement.Center
+//                ) {
+//                    Text(
+//                        text = subject2,
+//                        color = colorResource(R.color.white),
+//                        fontSize = 20.sp,
+//                        textAlign = TextAlign.Center
+//                    )
+//                }
+//            }
         }
     }
+}
+
+@Composable
+fun SelectionRow(
+    subjects: List<Subject>,
+    navController: NavController?
+){
+LazyColumn{
+    itemsIndexed(subjects){ i, subject ->
+        SubjectRow( idx = i, subject = subject, navController = navController )
+    }
+}
 }
 
 
 @Preview(showBackground = true)
 @Composable
 fun SubjectSelectionPreview() {
-    SubjectSelection(navController = null)
+//    SubjectSelection(navController = null)
 }

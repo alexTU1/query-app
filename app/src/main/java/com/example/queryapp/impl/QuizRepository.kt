@@ -1,8 +1,10 @@
 package com.example.queryapp.impl
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.queryapp.pages.SubjectSelection.Subject
 
 class QuizRepository : ViewModel() {
     private val question_Num: MutableState<Int> = mutableStateOf(1)
@@ -15,7 +17,18 @@ class QuizRepository : ViewModel() {
     private val intermediateDifficultyClick: MutableState<Boolean> = mutableStateOf(false)
     private val advancedDifficultyClick: MutableState<Boolean> = mutableStateOf(false)
 
-    init{}
+    private var _subjects: MutableState<List<Subject>> = mutableStateOf(listOf())
+    val subjects: State<List<Subject>> = _subjects
+
+    private var _subjectList = listOf<Subject>()
+
+
+    init{
+        _subjectList = (1..4).map{ i ->
+            Subject("Subject $i", "")
+        }
+        _subjects.value = getSubjects()
+    }
 
     fun getQuestionNum(): Int {
         return question_Num.value
@@ -79,4 +92,7 @@ class QuizRepository : ViewModel() {
 //        return advancedDifficultyClick.value
 //    }
 
+     private fun getSubjects(): List<Subject> {
+        return _subjectList
+    }
 }

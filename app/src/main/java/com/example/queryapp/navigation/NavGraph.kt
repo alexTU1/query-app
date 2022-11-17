@@ -1,6 +1,7 @@
 package com.example.queryapp
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -16,6 +17,7 @@ fun setUpNavGraph(
     navController: NavHostController,
     qr: QuizRepository = viewModel()
 ){
+
     NavHost(navController = navController, startDestination = ScreenHolder.Landing.route){
         composable(
             route = ScreenHolder.Landing.route
@@ -26,7 +28,7 @@ fun setUpNavGraph(
         composable(
             route = ScreenHolder.SubjectSelection.route
         ) {
-            SubjectSelection(navController)
+            SubjectSelection(navController, qr)
         }
 
         composable(
