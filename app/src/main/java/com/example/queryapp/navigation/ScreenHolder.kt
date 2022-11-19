@@ -8,4 +8,5 @@ sealed class ScreenHolder(val route: String) {
     object SubjectSelection: ScreenHolder(route = "subject_selection_screen")
     object Quiz: ScreenHolder(route = "quiz_screen")
     object QuizEnd: ScreenHolder(route = "quizend_screen")
+    object About: ScreenHolder(route = "about")
 }

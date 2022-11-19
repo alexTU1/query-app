@@ -57,13 +57,14 @@ fun SubjectSelectionPageView(navController: NavController?, qr: QuizRepository){
             .padding(vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val subjects by qr.subjects
-
-        SelectionRow(subjects = subjects, navController)
-//        SelectionRow(subject1 = "Java Basics", navController, ScreenHolder.Quiz.route)
-//        SelectionRow(subject1 = "Object Oriented Programming Pillars", navController, ScreenHolder.Quiz.route)
-//        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
-//        SelectionRow(subject1 = "Sample Subject", subject2 = "Sample Subject", navController, ScreenHolder.Quiz.route)
+        SelectionRow(
+            subjects = listOf(
+            Subject(name ="Java Basics" , screenHolder = ScreenHolder.Quiz.route),
+            Subject(name ="Object Oriented Programming Basics" , screenHolder = ScreenHolder.Quiz.route),
+            Subject(name ="Object Oriented Programming Pillars" , screenHolder = ScreenHolder.Quiz.route),
+            Subject(name ="Object Oriented Design Principles" , screenHolder = ScreenHolder.Quiz.route)),
+            navController = navController
+        )
     }
 }
 

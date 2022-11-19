@@ -2,12 +2,13 @@ package com.example.queryapp
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,6 +28,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
+import com.example.queryapp.pages.LandingPage.NavDrawerItem
 import kotlinx.coroutines.launch
 
 
@@ -36,6 +38,24 @@ fun Landing(navController: NavController?, qr: QuizRepository) {
     val state = rememberScaffoldState(rememberDrawerState(initialValue = DrawerValue.Closed))
     Scaffold(
         scaffoldState = state,
+        drawerBackgroundColor = MaterialTheme.colors.primary,
+        drawerShape = RoundedCornerShape(0.dp, 50.dp, 50.dp, 0.dp),
+        drawerContent = {
+            NavDrawerHeader(state, scope)
+            NavDrawerContent(
+                drawerItems = listOf(
+                NavDrawerItem(name = "Home", icon = Icons.Default.Home),
+                NavDrawerItem(name = "Subjects", icon = Icons.Default.Star),
+                NavDrawerItem(name = "About", icon = Icons.Default.Info)
+            ), whenClicked = {
+                when(it.name){
+                    "Home" -> navController?.navigate(route = ScreenHolder.Landing.route)
+                    "Subjects" -> navController?.navigate(route = ScreenHolder.SubjectSelection.route)
+                    "About" -> navController?.navigate(route = ScreenHolder.About.route)
+                    }
+                }
+            )
+        },
         topBar = {
             TopAppBar(
                 title = {},

@@ -34,13 +34,19 @@ fun setUpNavGraph(
         composable(
             route = ScreenHolder.Quiz.route
         ) {
-            Quiz(navController, qr)
+            Quiz(navController, qr, )
         }
 
         composable(
             route = ScreenHolder.QuizEnd.route
         ) {
             QuizEnd(navController, qr)
+        }
+
+        composable(
+            route = ScreenHolder.About.route
+        ) {
+           About(navController)
         }
 
     }

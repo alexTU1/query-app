@@ -21,7 +21,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
+import com.example.queryapp.submitContent.ConfirmBox
+import com.example.queryapp.submitContent.ConfirmBoxViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
@@ -165,6 +170,10 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, letter: Stri
             .clip(RoundedCornerShape(20.dp)),
         colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary)
     ){
+
+//        if(qr.getQuestionNum() == 10){
+//            ConfirmBox(title = "Confirm", text = "Are you sure you want to submit?", navController = navController)
+//        }
         Row(
             verticalAlignment = Alignment.CenterVertically
         ){
