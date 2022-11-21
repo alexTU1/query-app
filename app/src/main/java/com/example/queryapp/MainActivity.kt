@@ -19,6 +19,7 @@ import com.example.queryapp.impl.QuizRepository
 
 //import com.example.queryapp.ui.theme.QueryappTheme
 
+
 class MainActivity : ComponentActivity() {
 
     lateinit var navController: NavHostController
@@ -39,9 +40,11 @@ class MainActivity : ComponentActivity() {
 //                    }
 
 
+
         }
 
     }
+
 
     @Composable
     fun ThemeChanger(qr: QuizRepository) {
@@ -68,6 +71,7 @@ class MainActivity : ComponentActivity() {
     }
 
 
+
     enum class ThemeType{
         BEGINNER, INTERMEDIATE, ADVANCED
     }
@@ -77,11 +81,14 @@ class MainActivity : ComponentActivity() {
         Text(text = "Hello $name")
     }
 
+
     @Preview(showBackground = true)
     @Composable
     fun DefaultPreview() {
+
         QueryappBeginnerTheme {
             Greeting("me")
         }
+
     }
 }
