@@ -13,18 +13,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
 
 @Composable
 fun MBSubmitButton(
     navController: NavController?,
-    isSelected: MutableState<Boolean>
+    isSelected: MutableState<Boolean>,
+    qr: QuizRepository
 ){
    Button(
        onClick = {
            isSelected.value == false
                  if(isSelected.value == true){
-                   navController?.navigate(route = ScreenHolder.QuizEnd.route)
+                     qr.setSubmitSelection()
+                     //navController?.navigate(route = ScreenHolder.QuizEnd.route)
+                     //qr.reset()
                  }
        },
        modifier = Modifier

@@ -21,6 +21,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
+import com.example.queryapp.submitContent.ConfirmBox
+import com.example.queryapp.submitContent.ConfirmBoxViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
@@ -34,7 +41,7 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
     //val qr: QuizRepository = viewModel()
 
     ModalBottomSheetLayout(
-        sheetContent = { MBSubmitButton(navController, isSelected) },
+        sheetContent = { MBSubmitButton(navController, isSelected, qr) },
         sheetBackgroundColor = Color.Transparent,
         sheetElevation = 10.dp,
         sheetState = mBSState,
@@ -50,25 +57,25 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
                             fontWeight = FontWeight.Bold)
 
                     },
-                    actions = {
+//                    actions = {
 //                              if(qr.getProgress() > 0.9F){
 //                                  rCRS.launch {
 //                                      mBSState.show()
 //                                  }
 //                              }
-//                              else{
-//                                  rCRS.launch {
-//                                      mBSState.hide()
-//                                  }
-//                              }
-
-                    },
+////                              else{
+////                                  rCRS.launch {
+////                                      mBSState.hide()
+////                                  }
+////                              }
+//
+//                    },
                     backgroundColor = MaterialTheme.colors.secondary,
                     modifier = Modifier.height(80.dp)
                 )
             }
         ) {
-            QuizPageView(navController = navController, qr = qr)
+            QuizPageView(navController = navController, qr = qr, rCRS, mBSState)
         }
     }
 
@@ -77,8 +84,9 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
 
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun QuizPageView(navController: NavController?, qr: QuizRepository){
+fun QuizPageView(navController: NavController?, qr: QuizRepository, rCRS: CoroutineScope, mBSState: ModalBottomSheetState){
     Column(
         modifier = Modifier
             .background(MaterialTheme.colors.primaryVariant)
@@ -116,34 +124,40 @@ fun QuizPageView(navController: NavController?, qr: QuizRepository){
                     .fillMaxWidth(0.95F)
                     .padding(20.dp, 0.dp, 20.dp, 10.dp)
             )
-            AnswerOption(qr, navController,"A", stringResource(R.string.correct_answer), true)
-            AnswerOption(qr, navController,"B", stringResource(R.string.incorrect_answer), false)
-            AnswerOption(qr, navController,"C", stringResource(R.string.incorrect_answer), false)
-            AnswerOption(qr, navController,"D", stringResource(R.string.incorrect_answer), false)
+            AnswerOption(qr, navController, rCRS, mBSState,"A", stringResource(R.string.correct_answer), true)
+            AnswerOption(qr, navController, rCRS, mBSState,"B", stringResource(R.string.incorrect_answer), false)
+            AnswerOption(qr, navController, rCRS, mBSState,"C", stringResource(R.string.incorrect_answer), false)
+            AnswerOption(qr, navController, rCRS, mBSState,"D", stringResource(R.string.incorrect_answer), false)
         }
     }
 }
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AnswerOption(qr: QuizRepository, navController: NavController?, letter: String, optionString: String, isCorrect: Boolean){
+fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: CoroutineScope, bottomSheetState: ModalBottomSheetState, letter: String, optionString: String, isCorrect: Boolean){
     Button(
         onClick = {
-            //if we are adding a point for every correct answer
-            //for every question LESS THAN 10
-            //it will be impossible to get a perfect score because
-            //the 10th point never counts with these conditions
             if(qr.getQuestionNum() < 10) {
                 if(isCorrect){
                     qr.addPoint()
                 }
                 qr.nextQuestion()
                 //solution to result counting issue ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                if(isCorrect && qr.getQuestionNum() == 10){
-                    qr.addPoint()
-                }
+//                if(isCorrect && qr.getQuestionNum() == 10){
+//                    qr.addPoint()
+//                }
                 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             } else {
+                if(qr.getQuestionNum() == 10){
+                    if(isCorrect){
+                        qr.addPoint()
+                    }
+                    qr.setFinalAnswer(isCorrect)
+                    coroutine.launch{
+                        bottomSheetState.show()
+                    }
+                }
                 /*when user presses back button they will exit app...
                 we need to somehow implement a way for them to press back button at anytime
                 during the quiz taking process and take them back to the landing or subject
@@ -153,9 +167,9 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, letter: Stri
                 //submit button doesn't have a chance to pop up after 10th question is answered
                 //because after 10th question is answered it automatically goes to the
                 //result page.
-                navController?.navigate(route = ScreenHolder.QuizEnd.route)
+                //navController?.navigate(route = ScreenHolder.QuizEnd.route)
                 //qr.addPoint()
-                qr.reset()
+                //qr.reset()
             }
         },
         modifier = Modifier
@@ -164,6 +178,10 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, letter: Stri
             .clip(RoundedCornerShape(20.dp)),
         colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary)
     ){
+
+        if(qr.getSubmitSelection()){
+            ConfirmBox(title = "Confirm", text = "Are you sure you want to submit?", navController = navController, qr, coroutine, bottomSheetState)
+        }
         Row(
             verticalAlignment = Alignment.CenterVertically
         ){
