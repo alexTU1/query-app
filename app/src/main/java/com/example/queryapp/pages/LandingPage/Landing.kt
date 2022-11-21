@@ -62,7 +62,7 @@ fun Landing(navController: NavController?, qr: QuizRepository) {
                     when(it.name){
                         "Home" -> navController?.navigate(route = ScreenHolder.Landing.route)
                         "Subjects" -> navController?.navigate(route = ScreenHolder.SubjectSelection.route)
-                        "About" -> navController?.navigate(route = ScreenHolder.About.route)
+                        "About" -> navController?.navigate(route = ScreenHolder.AboutQuery.route)
                     }
                 }
             )

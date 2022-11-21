@@ -101,9 +101,6 @@ class QuizRepository : ViewModel() {
         advancedDifficultyClick.value
         return beginnerDifficultyClick.value
     }
-//    fun getBClickVal():Boolean{
-//        return beginnerDifficultyClick.value
-//    }
 
     fun isIntermediateDifficultyClicked(): Boolean {
         intermediateDifficultyClick.value = !intermediateDifficultyClick.value
@@ -111,9 +108,6 @@ class QuizRepository : ViewModel() {
         advancedDifficultyClick.value
         return intermediateDifficultyClick.value
     }
-//    fun getIClickVal():Boolean{
-//        return intermediateDifficultyClick.value
-//    }
 
     fun isAdvancedDifficultyClicked(): Boolean{
         advancedDifficultyClick.value = !advancedDifficultyClick.value
@@ -121,9 +115,6 @@ class QuizRepository : ViewModel() {
         intermediateDifficultyClick.value
         return advancedDifficultyClick.value
     }
-//    fun getAClickVal():Boolean{
-//        return advancedDifficultyClick.value
-//    }
 
     private fun getSubjects(): List<Subject> {
         return _subjectList
