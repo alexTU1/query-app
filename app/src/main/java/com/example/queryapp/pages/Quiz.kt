@@ -135,10 +135,6 @@ fun QuizPageView(navController: NavController?, qr: QuizRepository){
 fun AnswerOption(qr: QuizRepository, navController: NavController?, letter: String, optionString: String, isCorrect: Boolean){
     Button(
         onClick = {
-            //if we are adding a point for every correct answer
-            //for every question LESS THAN 10
-            //it will be impossible to get a perfect score because
-            //the 10th point never counts with these conditions
             if(qr.getQuestionNum() < 10) {
                 if(isCorrect){
                     qr.addPoint()

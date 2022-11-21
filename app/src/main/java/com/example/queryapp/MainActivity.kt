@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
@@ -24,20 +26,50 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val qr: QuizRepository = viewModel()
+            ThemeChanger(qr = qr)
                 /*when(enum...) {
                     Beginner -> {
 
         }
         }*/
-                    QueryappBeginnerTheme {
+//                    QueryappBeginnerTheme {
+//                        navController = rememberNavController()
+//                        setUpNavGraph(navController = navController)
+//                    }
 
-                        navController = rememberNavController()
-                        setUpNavGraph(navController = navController)
-
-                    }
 
         }
 
+    }
+
+@Composable
+fun ThemeChanger(qr: QuizRepository) {
+    when(qr.themeType.value){
+         ThemeType.BEGINNER -> {
+             return QueryappBeginnerTheme {
+                navController = rememberNavController()
+                setUpNavGraph(navController = navController)
+            }
+        }
+         ThemeType.INTERMEDIATE -> {
+             return QueryappIntermediateTheme {
+                navController = rememberNavController()
+                setUpNavGraph(navController = navController)
+            }
+        }
+         ThemeType.ADVANCED -> {
+             return QueryappAdvancedTheme {
+                navController = rememberNavController()
+                setUpNavGraph(navController = navController)
+            }
+        }
+    }
+}
+
+
+    enum class ThemeType{
+        BEGINNER, INTERMEDIATE, ADVANCED
     }
 
     @Composable

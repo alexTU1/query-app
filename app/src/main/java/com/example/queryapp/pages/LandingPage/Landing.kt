@@ -1,5 +1,6 @@
 package com.example.queryapp
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,9 +12,12 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -39,9 +43,16 @@ fun Landing(navController: NavController?, qr: QuizRepository) {
     Scaffold(
         scaffoldState = state,
         drawerBackgroundColor = MaterialTheme.colors.primary,
-        drawerShape = RoundedCornerShape(0.dp, 50.dp, 50.dp, 0.dp),
+        drawerShape = RoundedCornerShape(0.dp, 40.dp, 40.dp, 0.dp),
         drawerContent = {
             NavDrawerHeader(state, scope)
+            Spacer(modifier = Modifier.height(5.dp))
+            Divider(
+                startIndent = 0.dp,
+                thickness = 2.dp,
+                color = MaterialTheme.colors.secondary,
+                modifier = Modifier.blur(radius = 5.dp, edgeTreatment = BlurredEdgeTreatment.Unbounded)
+            )
             NavDrawerContent(
                 drawerItems = listOf(
                 NavDrawerItem(name = "Home", icon = Icons.Default.Home),
@@ -101,8 +112,10 @@ fun LandingContent(navController: NavController?, qr: QuizRepository){
     }
 }
 
+@SuppressLint("LongLogTag")
 @Composable
 fun GetStarted(navController: NavController?, qr: QuizRepository){
+
     Box(
         modifier = Modifier
             .background(colorResource(R.color.light_lavendar))
@@ -129,10 +142,14 @@ fun GetStarted(navController: NavController?, qr: QuizRepository){
                 onClick = {
                     navController?.navigate(route = ScreenHolder.SubjectSelection.route)
                     qr.isBeginnerDifficultyClicked()
+                    qr.getTheme() === MainActivity.ThemeType.BEGINNER
+
+
                     //logcat check
                     Log.d("Beginner: ", qr.isBeginnerDifficultyClicked().toString())
                     Log.d("Intermediate: ", qr.isIntermediateDifficultyClicked().toString())
                     Log.d("Advanced: ", qr.isAdvancedDifficultyClicked().toString())
+                    Log.d("theme: ", qr.getTheme().toString())
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier
@@ -162,10 +179,14 @@ fun GetStarted(navController: NavController?, qr: QuizRepository){
                 onClick = {
                     navController?.navigate(route = ScreenHolder.SubjectSelection.route)
                     qr.isIntermediateDifficultyClicked()
+                    qr.getTheme() === MainActivity.ThemeType.INTERMEDIATE
+
+
                     //logcat check
                     Log.d("Beginner: ", qr.isBeginnerDifficultyClicked().toString())
                     Log.d("Intermediate: ", qr.isIntermediateDifficultyClicked().toString())
                     Log.d("Advanced: ", qr.isAdvancedDifficultyClicked().toString())
+                    Log.d("theme: ", qr.getTheme().toString())
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier
@@ -193,10 +214,13 @@ fun GetStarted(navController: NavController?, qr: QuizRepository){
                 onClick = {
                     navController?.navigate(route = ScreenHolder.SubjectSelection.route)
                     qr.isAdvancedDifficultyClicked()
+                    qr.getTheme() === MainActivity.ThemeType.ADVANCED
+                    //themeColor === qr.getTheme()
                     //logcat check
                     Log.d("Beginner: ", qr.isBeginnerDifficultyClicked().toString())
                     Log.d("Intermediate: ", qr.isIntermediateDifficultyClicked().toString())
                     Log.d("Advanced: ", qr.isAdvancedDifficultyClicked().toString())
+                    Log.d("theme: ", qr.getTheme().toString())
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier

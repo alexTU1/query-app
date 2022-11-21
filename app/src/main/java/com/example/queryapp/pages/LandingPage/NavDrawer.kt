@@ -5,10 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,7 +32,7 @@ fun NavDrawerHeader(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding( horizontal = 30.dp)
+            .padding(horizontal = 15.dp)
             .background(color = MaterialTheme.colors.primary),
         contentAlignment = Alignment.CenterStart
     ) {
@@ -64,7 +61,7 @@ fun NavDrawerContent(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding( horizontal = 30.dp, vertical = 15.dp)
+                    .padding(horizontal = 30.dp, vertical = 15.dp)
                     .clickable { whenClicked(drawerItem) }
                     .height(20.dp),
                 horizontalArrangement = Arrangement.Start

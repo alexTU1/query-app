@@ -3,7 +3,9 @@ package com.example.queryapp.impl
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
+import com.example.queryapp.MainActivity
 import com.example.queryapp.pages.SubjectSelection.Subject
 
 class QuizRepository : ViewModel() {
@@ -22,12 +24,15 @@ class QuizRepository : ViewModel() {
 
     private var _subjectList = listOf<Subject>()
 
+    private var _themeType: MutableState<MainActivity.ThemeType> = mutableStateOf(MainActivity.ThemeType.BEGINNER)
+    val themeType: State<MainActivity.ThemeType> = _themeType
 
     init{
         _subjectList = (1..4).map{ i ->
             Subject("Subject $i", "")
         }
         _subjects.value = getSubjects()
+        //_themeType.value = getTheme()
     }
 
     fun getQuestionNum(): Int {
@@ -58,6 +63,10 @@ class QuizRepository : ViewModel() {
 
     fun resetNumCorrect(){
         numCorrect.value = 0
+    }
+
+    fun getTheme(): MainActivity.ThemeType{
+        return themeType.value
     }
 
 
