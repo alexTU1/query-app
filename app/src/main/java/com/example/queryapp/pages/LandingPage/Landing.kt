@@ -55,14 +55,14 @@ fun Landing(navController: NavController?, qr: QuizRepository) {
             )
             NavDrawerContent(
                 drawerItems = listOf(
-                NavDrawerItem(name = "Home", icon = Icons.Default.Home),
-                NavDrawerItem(name = "Subjects", icon = Icons.Default.Star),
-                NavDrawerItem(name = "About", icon = Icons.Default.Info)
-            ), whenClicked = {
-                when(it.name){
-                    "Home" -> navController?.navigate(route = ScreenHolder.Landing.route)
-                    "Subjects" -> navController?.navigate(route = ScreenHolder.SubjectSelection.route)
-                    "About" -> navController?.navigate(route = ScreenHolder.About.route)
+                    NavDrawerItem(name = "Home", icon = Icons.Default.Home),
+                    NavDrawerItem(name = "Subjects", icon = Icons.Default.Star),
+                    NavDrawerItem(name = "About", icon = Icons.Default.Info)
+                ), whenClicked = {
+                    when(it.name){
+                        "Home" -> navController?.navigate(route = ScreenHolder.Landing.route)
+                        "Subjects" -> navController?.navigate(route = ScreenHolder.SubjectSelection.route)
+                        "About" -> navController?.navigate(route = ScreenHolder.About.route)
                     }
                 }
             )
@@ -71,13 +71,13 @@ fun Landing(navController: NavController?, qr: QuizRepository) {
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                                IconButton(onClick = {
-                                    scope.launch{
-                                        state.drawerState.open()
-                                    }
-                                }){
-                                    Icon(Icons.Rounded.Menu, "")
-                                }
+                    IconButton(onClick = {
+                        scope.launch{
+                            state.drawerState.open()
+                        }
+                    }){
+                        Icon(Icons.Rounded.Menu, "")
+                    }
                 },
                 backgroundColor = MaterialTheme.colors.primaryVariant,
                 modifier = Modifier.height(50.dp),
@@ -241,7 +241,7 @@ fun GetStarted(navController: NavController?, qr: QuizRepository){
                     text = stringResource(R.string.advanced),
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Normal,
-                   // fontFamily = FontFamily.Serif,
+                    // fontFamily = FontFamily.Serif,
                     color = Color.White)
             }
 

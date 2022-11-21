@@ -15,6 +15,10 @@ class QuizRepository : ViewModel() {
 
     private val numCorrect: MutableState<Int> = mutableStateOf(0)
 
+    private val submitSelected: MutableState<Boolean> = mutableStateOf(false)
+
+    private val finalAnswer: MutableState<Boolean> = mutableStateOf(false)
+
     private val beginnerDifficultyClick: MutableState<Boolean> = mutableStateOf(false)
     private val intermediateDifficultyClick: MutableState<Boolean> = mutableStateOf(false)
     private val advancedDifficultyClick: MutableState<Boolean> = mutableStateOf(false)
@@ -52,6 +56,18 @@ class QuizRepository : ViewModel() {
         numCorrect.value++
     }
 
+    fun subtractPoint() {
+        numCorrect.value--
+    }
+
+    fun setFinalAnswer(fa: Boolean) {
+        finalAnswer.value = fa
+    }
+
+    fun getFinalAnswer() : Boolean {
+        return finalAnswer.value
+    }
+
     fun getQuizResult(): Int {
         return numCorrect.value
     }
@@ -59,6 +75,7 @@ class QuizRepository : ViewModel() {
     fun reset() {
         question_Num.value = 1
         progress.value = 0.0F
+        submitSelected.value = false
     }
 
     fun resetNumCorrect(){
@@ -69,6 +86,13 @@ class QuizRepository : ViewModel() {
         return themeType.value
     }
 
+    fun getSubmitSelection() : Boolean {
+        return submitSelected.value
+    }
+
+    fun setSubmitSelection() {
+        submitSelected.value = !submitSelected.value
+    }
 
     //for app theme changes
     fun isBeginnerDifficultyClicked(): Boolean {
@@ -101,7 +125,7 @@ class QuizRepository : ViewModel() {
 //        return advancedDifficultyClick.value
 //    }
 
-     private fun getSubjects(): List<Subject> {
+    private fun getSubjects(): List<Subject> {
         return _subjectList
     }
 }

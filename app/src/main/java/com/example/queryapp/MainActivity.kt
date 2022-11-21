@@ -28,11 +28,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             val qr: QuizRepository = viewModel()
             ThemeChanger(qr = qr)
-                /*when(enum...) {
-                    Beginner -> {
+            /*when(enum...) {
+                Beginner -> {
 
-        }
-        }*/
+    }
+    }*/
 //                    QueryappBeginnerTheme {
 //                        navController = rememberNavController()
 //                        setUpNavGraph(navController = navController)
@@ -43,29 +43,29 @@ class MainActivity : ComponentActivity() {
 
     }
 
-@Composable
-fun ThemeChanger(qr: QuizRepository) {
-    when(qr.themeType.value){
-         ThemeType.BEGINNER -> {
-             return QueryappBeginnerTheme {
-                navController = rememberNavController()
-                setUpNavGraph(navController = navController)
+    @Composable
+    fun ThemeChanger(qr: QuizRepository) {
+        when(qr.themeType.value){
+            ThemeType.BEGINNER -> {
+                return QueryappBeginnerTheme {
+                    navController = rememberNavController()
+                    setUpNavGraph(navController = navController)
+                }
             }
-        }
-         ThemeType.INTERMEDIATE -> {
-             return QueryappIntermediateTheme {
-                navController = rememberNavController()
-                setUpNavGraph(navController = navController)
+            ThemeType.INTERMEDIATE -> {
+                return QueryappIntermediateTheme {
+                    navController = rememberNavController()
+                    setUpNavGraph(navController = navController)
+                }
             }
-        }
-         ThemeType.ADVANCED -> {
-             return QueryappAdvancedTheme {
-                navController = rememberNavController()
-                setUpNavGraph(navController = navController)
+            ThemeType.ADVANCED -> {
+                return QueryappAdvancedTheme {
+                    navController = rememberNavController()
+                    setUpNavGraph(navController = navController)
+                }
             }
         }
     }
-}
 
 
     enum class ThemeType{
