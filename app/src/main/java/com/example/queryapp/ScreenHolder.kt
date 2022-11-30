@@ -4,6 +4,7 @@ package com.example.queryapp
 // https://www.youtube.com/watch?v=glyqjzkc4fk
 
 sealed class ScreenHolder(val route: String) {
+    object Notification: ScreenHolder(route = "notification_screen")
     object Landing: ScreenHolder(route = "landing_screen")
     object SubjectSelection: ScreenHolder(route = "subject_selection_screen")
     object Quiz: ScreenHolder(route = "quiz_screen")

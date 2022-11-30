@@ -61,4 +61,9 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
+
+    //Adding dependency for creating a notification
+    implementation "androidx.core:core-ktx:1.6.0"
+    //Adding dependency for worker
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
 }

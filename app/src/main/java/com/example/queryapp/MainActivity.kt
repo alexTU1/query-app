@@ -19,11 +19,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             QueryappTheme {
-
-
                 navController = rememberNavController()
                 setUpNavGraph(navController = navController)
-
             }
         }
     }
