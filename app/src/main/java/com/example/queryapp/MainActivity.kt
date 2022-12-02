@@ -29,22 +29,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val qr: QuizRepository = viewModel()
             ThemeChanger(qr = qr)
-            /*when(enum...) {
-                Beginner -> {
-
-    }
-    }*/
-//                    QueryappBeginnerTheme {
-//                        navController = rememberNavController()
-//                        setUpNavGraph(navController = navController)
-//                    }
-
-
-
         }
-
     }
-
 
     @Composable
     fun ThemeChanger(qr: QuizRepository) {
@@ -70,8 +56,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
-
     enum class ThemeType{
         BEGINNER, INTERMEDIATE, ADVANCED
     }
@@ -85,7 +69,6 @@ class MainActivity : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     fun DefaultPreview() {
-
         QueryappBeginnerTheme {
             Greeting("me")
         }
