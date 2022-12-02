@@ -1,6 +1,7 @@
 package com.example.queryapp
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
@@ -41,7 +42,7 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
     //val qr: QuizRepository = viewModel()
 
     ModalBottomSheetLayout(
-        sheetContent = { MBSubmitButton(navController, isSelected, qr) },
+        sheetContent = { MBSubmitButton(navController, isSelected, qr, rCRS, mBSState) },
         sheetBackgroundColor = Color.Transparent,
         sheetElevation = 10.dp,
         sheetState = mBSState,
@@ -136,67 +137,82 @@ fun QuizPageView(navController: NavController?, qr: QuizRepository, rCRS: Corout
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: CoroutineScope, bottomSheetState: ModalBottomSheetState, letter: String, optionString: String, isCorrect: Boolean){
+    var isSelected: Boolean by remember { mutableStateOf(false) }
     Button(
         onClick = {
+            isSelected = !isSelected
+            qr.selectionMade()
             if(qr.getQuestionNum() < 10) {
-                if(isCorrect){
-                    qr.addPoint()
+                qr.setFinalAnswer(isCorrect)
+                coroutine.launch {
+                    bottomSheetState.show()
                 }
-                qr.nextQuestion()
-                //solution to result counting issue ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//                if(isCorrect && qr.getQuestionNum() == 10){
+            }
+//            coroutine.launch{
+//                bottomSheetState.show()
+//            }
+//            if(qr.getQuestionNum() < 10) {
+//                if(isCorrect){
 //                    qr.addPoint()
 //                }
-                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            } else {
-                if(qr.getQuestionNum() == 10){
-                    if(isCorrect){
+//                qr.nextQuestion()
+//                //solution to result counting issue ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+////                if(isCorrect && qr.getQuestionNum() == 10){
+////                    qr.addPoint()
+////                }
+//                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//            } else {
+            else {
+                if (qr.getQuestionNum() == 10) {
+                    if (isCorrect) {
                         qr.addPoint()
                     }
                     qr.setFinalAnswer(isCorrect)
-                    coroutine.launch{
+                    coroutine.launch {
                         bottomSheetState.show()
                     }
                 }
-                /*when user presses back button they will exit app...
-                we need to somehow implement a way for them to press back button at anytime
-                during the quiz taking process and take them back to the landing or subject
-                selection page*/
-
-
-                //submit button doesn't have a chance to pop up after 10th question is answered
-                //because after 10th question is answered it automatically goes to the
-                //result page.
-                //navController?.navigate(route = ScreenHolder.QuizEnd.route)
-                //qr.addPoint()
-                //qr.reset()
             }
+//                /*when user presses back button they will exit app...
+//                we need to somehow implement a way for them to press back button at anytime
+//                during the quiz taking process and take them back to the landing or subject
+//                selection page*/
+//
+//
+//                //submit button doesn't have a chance to pop up after 10th question is answered
+//                //because after 10th question is answered it automatically goes to the
+//                //result page.
+//                //navController?.navigate(route = ScreenHolder.QuizEnd.route)
+//                //qr.addPoint()
+//                //qr.reset()
+//            }
         },
         modifier = Modifier
             .fillMaxWidth(0.99F)
             .padding(10.dp)
             .clip(RoundedCornerShape(20.dp)),
-        colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary)
+        colors = ButtonDefaults.buttonColors(backgroundColor = if(isSelected) colorResource(R.color.white) else colorResource(R.color.light_purple))
     ){
 
-        if(qr.getSubmitSelection()){
+        if(qr.getSubmitSelection() && qr.getQuestionNum() == 10){
             ConfirmBox(title = "Confirm", text = "Are you sure you want to submit?", navController = navController, qr, coroutine, bottomSheetState)
         }
         Row(
             verticalAlignment = Alignment.CenterVertically
         ){
+            val backgroundColor = if(isSelected) colorResource(R.color.light_purple) else colorResource(R.color.white)
             Box(
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape)
-                    .background(colorResource(R.color.white))
+                    .background(backgroundColor)
                     .padding(20.dp),
                 contentAlignment = Alignment.Center
             ){
                 Text(
                     text = letter,
                     fontSize = 18.sp,
-                    color = colorResource(R.color.black)
+                    color = if(isSelected) colorResource(R.color.white) else colorResource(R.color.black)
                 )
             }
             Text(

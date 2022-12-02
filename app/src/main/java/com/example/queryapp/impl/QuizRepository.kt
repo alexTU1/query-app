@@ -6,15 +6,12 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
-//<<<<<<< HEAD
 import com.example.queryapp.MainActivity
 import com.example.queryapp.pages.SubjectSelection.Subject
-//=======
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
 import java.net.URL
-//>>>>>>> jrichb2_branch
 
 class QuizRepository : ViewModel() {
     private val question_Num: MutableState<Int> = mutableStateOf(1)
@@ -22,6 +19,14 @@ class QuizRepository : ViewModel() {
     private val progress: MutableState<Float> = mutableStateOf(0.0F)
 
     private val numCorrect: MutableState<Int> = mutableStateOf(0)
+
+    private val questions: List<Question?> = mutableListOf(null)
+
+    init{
+
+    }
+
+    private val optionSelected: MutableState<Boolean> = mutableStateOf(false)
 
     private val submitSelected: MutableState<Boolean> = mutableStateOf(false)
 
@@ -79,6 +84,22 @@ class QuizRepository : ViewModel() {
 
     fun getQuizResult(): Int {
         return numCorrect.value
+    }
+
+    fun selectionMade(){
+        optionSelected.value = true
+    }
+
+    fun deselect(){
+        optionSelected.value = false
+    }
+
+    fun isSelectionMade() : Boolean {
+        return optionSelected.value
+    }
+
+    fun resetAnswerSelection() {
+        optionSelected.value = false
     }
 
     fun reset() {

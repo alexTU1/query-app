@@ -7,10 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.queryapp.impl.QuizRepository
-
 import com.example.queryapp.navigation.ScreenHolder
 import com.example.queryapp.pages.AboutTeam
-
 import com.example.queryapp.worker.NotificationMessage
 
 
@@ -23,7 +21,6 @@ fun setUpNavGraph(
     qr: QuizRepository = viewModel()
 ){
 
-
     NavHost(navController = navController, startDestination = ScreenHolder.Notification.route){
 
         composable(
@@ -31,7 +28,6 @@ fun setUpNavGraph(
         ) {
             NotificationMessage(navController)
         }
-
 
         composable(
             route = ScreenHolder.Landing.route

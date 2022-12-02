@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-
 import com.example.queryapp.navigation.ScreenHolder
 
 
@@ -27,7 +26,7 @@ fun NotificationMessage(navController: NavController) {
         verticalArrangement = Arrangement.Center
             ){
         OutlinedButton(onClick = {
-            val noti = Notify(context,"?ueryApp","This is a quiz on OOP." )
+            val noti = Notify(context,"QueryApp","This is a quiz on OOP." )
             noti.buildingNotification()
             navController?.navigate(route = ScreenHolder.Landing.route)
         })
