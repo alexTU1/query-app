@@ -30,15 +30,18 @@ fun MBSubmitButton(
    Button(
        onClick = {
            if(isSelected.value == true){
+               rCRS.launch {
+                   mBSState.hide()
+               }
                qr.resetAnswerSelection()
                if(qr.getQuestionNum() < 10){
-                   rCRS.launch {
-                       mBSState.hide()
-                   }
                    if(qr.getFinalAnswer()){
                        qr.addPoint()
                    }
                    qr.nextQuestion()
+               }
+               else {
+                   qr.setSubmitSelection()
                }
            //navController?.navigate(route = ScreenHolder.QuizEnd.route)
            //qr.reset()

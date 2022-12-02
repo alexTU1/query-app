@@ -142,13 +142,11 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
         onClick = {
             isSelected = !isSelected
             qr.selectionMade()
-            Log.d("isSelected State", qr.isSelectionMade().toString())
             if(qr.getQuestionNum() < 10) {
                 qr.setFinalAnswer(isCorrect)
                 coroutine.launch {
                     bottomSheetState.show()
                 }
-                Log.d("mBSS", bottomSheetState.currentValue.toString())
             }
 //            coroutine.launch{
 //                bottomSheetState.show()
@@ -170,7 +168,6 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
                         qr.addPoint()
                     }
                     qr.setFinalAnswer(isCorrect)
-                    qr.setSubmitSelection()
                     coroutine.launch {
                         bottomSheetState.show()
                     }
