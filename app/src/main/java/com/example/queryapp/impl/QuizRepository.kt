@@ -21,6 +21,8 @@ class QuizRepository : ViewModel() {
 
     }
 
+    private val optionSelected: MutableState<Boolean> = mutableStateOf(false)
+
     private val submitSelected: MutableState<Boolean> = mutableStateOf(false)
 
     private val finalAnswer: MutableState<Boolean> = mutableStateOf(false)
@@ -76,6 +78,22 @@ class QuizRepository : ViewModel() {
 
     fun getQuizResult(): Int {
         return numCorrect.value
+    }
+
+    fun selectionMade(){
+        optionSelected.value = true
+    }
+
+    fun deselect(){
+        optionSelected.value = false
+    }
+
+    fun isSelectionMade() : Boolean {
+        return optionSelected.value
+    }
+
+    fun resetAnswerSelection() {
+        optionSelected.value = false
     }
 
     fun reset() {

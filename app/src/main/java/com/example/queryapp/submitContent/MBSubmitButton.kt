@@ -15,21 +15,34 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MBSubmitButton(
     navController: NavController?,
     isSelected: MutableState<Boolean>,
-    qr: QuizRepository
+    qr: QuizRepository,
+    rCRS: CoroutineScope,
+    mBSState: ModalBottomSheetState
 ){
    Button(
        onClick = {
-           isSelected.value == false
-                 if(isSelected.value == true){
-                     qr.setSubmitSelection()
-                     //navController?.navigate(route = ScreenHolder.QuizEnd.route)
-                     //qr.reset()
-                 }
+           if(isSelected.value == true){
+               qr.resetAnswerSelection()
+               if(qr.getQuestionNum() < 10){
+                   rCRS.launch {
+                       mBSState.hide()
+                   }
+                   if(qr.getFinalAnswer()){
+                       qr.addPoint()
+                   }
+                   qr.nextQuestion()
+               }
+           //navController?.navigate(route = ScreenHolder.QuizEnd.route)
+           //qr.reset()
+           }
        },
        modifier = Modifier
            .fillMaxWidth()
