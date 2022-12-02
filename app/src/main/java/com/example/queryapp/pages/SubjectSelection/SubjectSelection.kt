@@ -1,5 +1,6 @@
 package com.example.queryapp
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -24,6 +25,7 @@ import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
 import com.example.queryapp.pages.SubjectSelection.Subject
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SubjectSelection(navController: NavController?, qr: QuizRepository){
@@ -49,6 +51,8 @@ fun SubjectSelection(navController: NavController?, qr: QuizRepository){
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SubjectSelectionPageView(navController: NavController?, qr: QuizRepository){
+    qr.reset()
+    qr.resetNumCorrect()
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -63,7 +67,8 @@ fun SubjectSelectionPageView(navController: NavController?, qr: QuizRepository){
             Subject(name ="Object Oriented Programming Basics" , screenHolder = ScreenHolder.Quiz.route),
             Subject(name ="Object Oriented Programming Pillars" , screenHolder = ScreenHolder.Quiz.route),
             Subject(name ="Object Oriented Design Principles" , screenHolder = ScreenHolder.Quiz.route)),
-            navController = navController
+            navController = navController,
+            qr = qr
         )
     }
 }
@@ -150,11 +155,12 @@ fun SubjectRow(
 @Composable
 fun SelectionRow(
     subjects: List<Subject>,
-    navController: NavController?
+    navController: NavController?,
+    qr: QuizRepository
 ){
 LazyColumn{
     itemsIndexed(subjects){ i, subject ->
-        SubjectRow( idx = i, subject = subject, navController = navController )
+        SubjectRow( idx = i, subject = subject, navController = navController)
     }
 }
 }

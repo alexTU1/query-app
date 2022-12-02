@@ -17,7 +17,7 @@ import com.example.queryapp.ui.theme.QueryappIntermediateTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.queryapp.impl.QuizRepository
 
-//import com.example.queryapp.ui.theme.QueryappTheme
+
 
 
 class MainActivity : ComponentActivity() {
@@ -27,6 +27,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
             val qr: QuizRepository = viewModel()
             ThemeChanger(qr = qr)
         }
@@ -52,6 +53,7 @@ class MainActivity : ComponentActivity() {
                     navController = rememberNavController()
                     setUpNavGraph(navController = navController)
                 }
+
             }
         }
     }

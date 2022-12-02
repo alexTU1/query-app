@@ -36,6 +36,7 @@ import com.example.queryapp.pages.LandingPage.NavDrawerItem
 import kotlinx.coroutines.launch
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun Landing(navController: NavController?, qr: QuizRepository) {
     val scope = rememberCoroutineScope()

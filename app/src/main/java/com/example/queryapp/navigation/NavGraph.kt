@@ -7,8 +7,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.queryapp.impl.QuizRepository
+
 import com.example.queryapp.navigation.ScreenHolder
 import com.example.queryapp.pages.AboutTeam
+
+import com.example.queryapp.worker.NotificationMessage
+
 
 // Navigation implementation based on "Navigation Basics in Jetpack Compose" by Stevdza_San
 // https://www.youtube.com/watch?v=glyqjzkc4fk
@@ -19,7 +23,16 @@ fun setUpNavGraph(
     qr: QuizRepository = viewModel()
 ){
 
-    NavHost(navController = navController, startDestination = ScreenHolder.Landing.route){
+
+    NavHost(navController = navController, startDestination = ScreenHolder.Notification.route){
+
+        composable(
+            route = ScreenHolder.Notification.route
+        ) {
+            NotificationMessage(navController)
+        }
+
+
         composable(
             route = ScreenHolder.Landing.route
         ) {
@@ -35,7 +48,7 @@ fun setUpNavGraph(
         composable(
             route = ScreenHolder.Quiz.route
         ) {
-            Quiz(navController, qr, )
+            Quiz(navController, qr )
         }
 
         composable(
