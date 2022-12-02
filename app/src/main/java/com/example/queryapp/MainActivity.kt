@@ -27,7 +27,6 @@ class MainActivity : ComponentActivity() {
             QueryappBeginnerTheme {
                 navController = rememberNavController()
                 setUpNavGraph(navController = navController)
-
             }
             val qr: QuizRepository = viewModel()
             ThemeChanger(qr = qr)
