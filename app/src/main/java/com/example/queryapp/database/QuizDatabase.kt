@@ -12,6 +12,9 @@ interface QuizDao{
      fun getQuestions(): List<Question>
      //@Query("select * from questions")
 
+     fun getAnswers(): List<Answer>
+     //@Query("select * from answers")
+
 }
 
 @Database(entities = [ScreenHolder.Quiz::class], version = 1, exportSchema = false)
