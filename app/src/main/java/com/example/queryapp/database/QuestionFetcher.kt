@@ -27,8 +27,8 @@ class QuestionFetcher() : IQuestionFetcher {
             if(responseBody != null) {
                 val jsonString = responseBody.string()
                 val gson = Gson()
-                val songsArray = gson.fromJson(jsonString, Array<Question>::class.java)
-                songsArray.toList()
+                val questionArray = gson.fromJson(jsonString, Array<Question>::class.java)
+                questionArray.toList()
             } else {
                 listOf()
             }

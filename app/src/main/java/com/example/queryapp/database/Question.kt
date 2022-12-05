@@ -3,8 +3,10 @@ package com.example.queryapp.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.Gson
 import java.util.*
 import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
 
 @Entity(tableName = "questions")
 data class Question(
@@ -21,23 +23,24 @@ data class Question(
     val level: String,
 
     @ColumnInfo
-    @SerializedName("OptA")
+    @SerializedName("Opt1")
     val optA: String,
 
     @ColumnInfo
-    @SerializedName("OptB")
+    @SerializedName("Opt2")
     val optB: String,
 
     @ColumnInfo
-    @SerializedName("OptC")
+    @SerializedName("Opt3")
     val optC: String,
 
     @ColumnInfo
-    @SerializedName("OptD")
+    @SerializedName("Opt4")
     val optD: String,
 
     @ColumnInfo
     @SerializedName("Answer")
     val correctOpt: String
 )
+
 

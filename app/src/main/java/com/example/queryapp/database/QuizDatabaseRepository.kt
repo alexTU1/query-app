@@ -14,7 +14,7 @@ class QuizDatabaseRepository(app: Application, questions: List<Question>) : IQui
             QuestionDatabase::class.java,
             "questions.db"
         ).build()
-       // questions.forEach{ question -> db.quizDao().getQuestions()}
+
     }
 
     override suspend fun getQuestions(): List<Question> {

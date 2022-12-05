@@ -16,6 +16,7 @@ import com.example.queryapp.ui.theme.QueryappAdvancedTheme
 import com.example.queryapp.ui.theme.QueryappBeginnerTheme
 import com.example.queryapp.ui.theme.QueryappIntermediateTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.queryapp.database.Question
 
 
 class MainActivity : ComponentActivity() {
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
+        setContent{
             QueryappBeginnerTheme {
                 navController = rememberNavController()
                 setUpNavGraph(navController = navController)
@@ -33,6 +34,8 @@ class MainActivity : ComponentActivity() {
             ThemeChanger(qr = qr)
         }
     }
+
+
 
     @Composable
     fun ThemeChanger(qr: QuizRepository) {
