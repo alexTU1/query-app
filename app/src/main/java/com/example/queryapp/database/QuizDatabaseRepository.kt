@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.room.Room
 
 
-class QuizDatabaseRepository(app: Application, Question: List<Question>, Answer: List<Answer>) : IQuizRepository {
+class QuizDatabaseRepository(app: Application, questions: List<Question>) : IQuizRepository {
 
     private val db: QuestionDatabase
 
@@ -14,12 +14,11 @@ class QuizDatabaseRepository(app: Application, Question: List<Question>, Answer:
             QuestionDatabase::class.java,
             "questions.db"
         ).build()
+       // questions.forEach{ question -> db.quizDao().getQuestions()}
     }
 
     override suspend fun getQuestions(): List<Question> {
         return db.quizDao().getQuestions()
     }
-    override suspend fun getAnswers(): List<Answer>{
-        return db.quizDao().getAnswers()
-    }
+
 }

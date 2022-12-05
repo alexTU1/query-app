@@ -4,20 +4,18 @@ import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Query
 import androidx.room.RoomDatabase
-import com.example.queryapp.ScreenHolder
+import com.example.queryapp.navigation.ScreenHolder
 
 
 @Dao
 interface QuizDao{
-     fun getQuestions(): List<Question>
-     //@Query("select * from questions")
+    @Query("select * from questions")
+    suspend fun getQuestions(): List<Question>
 
-     fun getAnswers(): List<Answer>
-     //@Query("select * from answers")
 
 }
 
-@Database(entities = [ScreenHolder.Quiz::class], version = 1, exportSchema = false)
+@Database(entities = [Question::class], version = 1, exportSchema = false)
         abstract class QuestionDatabase : RoomDatabase(){
             abstract fun quizDao(): QuizDao
         }

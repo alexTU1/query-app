@@ -4,16 +4,40 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
+import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "questions")
 data class Question(
     @PrimaryKey
+    @SerializedName("ID")
     val id: UUID,
 
     @ColumnInfo
+    @SerializedName("Question")
     val question: String,
 
     @ColumnInfo
-    val level: String
+    @SerializedName("Level")
+    val level: String,
 
-){}
+    @ColumnInfo
+    @SerializedName("OptA")
+    val optA: String,
+
+    @ColumnInfo
+    @SerializedName("OptB")
+    val optB: String,
+
+    @ColumnInfo
+    @SerializedName("OptC")
+    val optC: String,
+
+    @ColumnInfo
+    @SerializedName("OptD")
+    val optD: String,
+
+    @ColumnInfo
+    @SerializedName("Answer")
+    val correctOpt: String
+)
+
