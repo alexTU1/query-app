@@ -26,7 +26,9 @@ class QuizRepository : ViewModel() {
 
     }
 
-    private val optionSelected: MutableState<Boolean> = mutableStateOf(false)
+    private val selection: MutableState<String> = mutableStateOf("Z")
+
+    private val showAnswers: MutableState<Boolean> = mutableStateOf(false)
 
     private val submitSelected: MutableState<Boolean> = mutableStateOf(false)
 
@@ -86,20 +88,17 @@ class QuizRepository : ViewModel() {
         return numCorrect.value
     }
 
-    fun selectionMade(){
-        optionSelected.value = true
+    fun selectionMade(letter: String){
+        selection.value = letter
     }
 
-    fun deselect(){
-        optionSelected.value = false
-    }
 
-    fun isSelectionMade() : Boolean {
-        return optionSelected.value
+    fun currentSelection() : String {
+        return selection.value
     }
 
     fun resetAnswerSelection() {
-        optionSelected.value = false
+        selection.value = "Z"
     }
 
     fun reset() {
@@ -122,6 +121,18 @@ class QuizRepository : ViewModel() {
 
     fun setSubmitSelection() {
         submitSelected.value = !submitSelected.value
+    }
+
+    fun displayAnswers() {
+        showAnswers.value = true
+    }
+
+    fun hideAnswers() {
+        showAnswers.value = false
+    }
+
+    fun getShowAnswersValue() : Boolean {
+        return showAnswers.value
     }
 
     //for app theme changes

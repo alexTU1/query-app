@@ -137,31 +137,15 @@ fun QuizPageView(navController: NavController?, qr: QuizRepository, rCRS: Corout
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: CoroutineScope, bottomSheetState: ModalBottomSheetState, letter: String, optionString: String, isCorrect: Boolean){
-    var isSelected: Boolean by remember { mutableStateOf(false) }
     Button(
         onClick = {
-            isSelected = !isSelected
-            qr.selectionMade()
+            qr.selectionMade(letter)
             if(qr.getQuestionNum() < 10) {
                 qr.setFinalAnswer(isCorrect)
                 coroutine.launch {
                     bottomSheetState.show()
                 }
             }
-//            coroutine.launch{
-//                bottomSheetState.show()
-//            }
-//            if(qr.getQuestionNum() < 10) {
-//                if(isCorrect){
-//                    qr.addPoint()
-//                }
-//                qr.nextQuestion()
-//                //solution to result counting issue ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-////                if(isCorrect && qr.getQuestionNum() == 10){
-////                    qr.addPoint()
-////                }
-//                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//            } else {
             else {
                 if (qr.getQuestionNum() == 10) {
                     if (isCorrect) {
@@ -173,25 +157,16 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
                     }
                 }
             }
-//                /*when user presses back button they will exit app...
-//                we need to somehow implement a way for them to press back button at anytime
-//                during the quiz taking process and take them back to the landing or subject
-//                selection page*/
-//
-//
-//                //submit button doesn't have a chance to pop up after 10th question is answered
-//                //because after 10th question is answered it automatically goes to the
-//                //result page.
-//                //navController?.navigate(route = ScreenHolder.QuizEnd.route)
-//                //qr.addPoint()
-//                //qr.reset()
-//            }
         },
         modifier = Modifier
             .fillMaxWidth(0.99F)
             .padding(10.dp)
             .clip(RoundedCornerShape(20.dp)),
-        colors = ButtonDefaults.buttonColors(backgroundColor = if(isSelected) colorResource(R.color.white) else colorResource(R.color.light_purple))
+        colors = ButtonDefaults.buttonColors(backgroundColor =
+        if(bottomSheetState.isVisible && letter == qr.currentSelection())
+            colorResource(R.color.white)
+        else
+            colorResource(R.color.light_purple))
     ){
 
         if(qr.getSubmitSelection() && qr.getQuestionNum() == 10){
@@ -200,7 +175,17 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
         Row(
             verticalAlignment = Alignment.CenterVertically
         ){
-            val backgroundColor = if(isSelected) colorResource(R.color.light_purple) else colorResource(R.color.white)
+            val backgroundColor =
+                if(bottomSheetState.isVisible && letter == qr.currentSelection())
+                    colorResource(R.color.light_purple)
+                else if(qr.getShowAnswersValue()){
+                    if(isCorrect)
+                       colorResource(R.color.correct_answer)
+                    else
+                        colorResource(R.color.incorrect_answer)
+                }
+                else
+                    colorResource(R.color.white)
             Box(
                 modifier = Modifier
                     .size(60.dp)
@@ -212,7 +197,11 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
                 Text(
                     text = letter,
                     fontSize = 18.sp,
-                    color = if(isSelected) colorResource(R.color.white) else colorResource(R.color.black)
+                    color =
+                    if(bottomSheetState.isVisible && letter == qr.currentSelection())
+                        colorResource(R.color.white)
+                    else
+                        colorResource(R.color.black)
                 )
             }
             Text(
