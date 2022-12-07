@@ -67,6 +67,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "io.coil-kt:coil-compose:2.2.1"
 
+    implementation "com.google.accompanist:accompanist-permissions:0.28.0"
 
     //Adding dependency for creating a notification
     implementation "androidx.core:core-ktx:1.9.0"
