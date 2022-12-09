@@ -1,7 +1,6 @@
 package com.example.queryapp
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
@@ -20,15 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.queryapp.database.QuestionListViewModel
+import com.example.queryapp.impl.Question
 import com.example.queryapp.impl.QuizRepository
-import com.example.queryapp.navigation.ScreenHolder
 import com.example.queryapp.submitContent.ConfirmBox
-import com.example.queryapp.submitContent.ConfirmBoxViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
@@ -39,7 +34,7 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
     val mBSState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val rCRS = rememberCoroutineScope()
     val isSelected = rememberSaveable{ mutableStateOf(true) }
-    //val qr: QuizRepository = viewModel()
+    val ques: QuestionListViewModel = viewModel()
 
     ModalBottomSheetLayout(
         sheetContent = { MBSubmitButton(navController, isSelected, qr, rCRS, mBSState) },
@@ -58,36 +53,26 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
                             fontWeight = FontWeight.Bold)
 
                     },
-//                    actions = {
-//                              if(qr.getProgress() > 0.9F){
-//                                  rCRS.launch {
-//                                      mBSState.show()
-//                                  }
-//                              }
-////                              else{
-////                                  rCRS.launch {
-////                                      mBSState.hide()
-////                                  }
-////                              }
-//
-//                    },
                     backgroundColor = MaterialTheme.colors.secondary,
                     modifier = Modifier.height(80.dp)
                 )
             }
         ) {
-            QuizPageView(navController = navController, qr = qr, rCRS, mBSState)
+            QuizPageView(navController = navController, qr = qr, rCRS, mBSState, ques)
         }
     }
-
-
-
-
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun QuizPageView(navController: NavController?, qr: QuizRepository, rCRS: CoroutineScope, mBSState: ModalBottomSheetState){
+fun QuizPageView(
+    navController: NavController?,
+    qr: QuizRepository,
+    rCRS: CoroutineScope,
+    mBSState: ModalBottomSheetState,
+    ques: QuestionListViewModel
+)
+{
     Column(
         modifier = Modifier
             .background(MaterialTheme.colors.primaryVariant)
@@ -118,7 +103,7 @@ fun QuizPageView(navController: NavController?, qr: QuizRepository, rCRS: Corout
                 )
             }
             Text(
-                text = stringResource(R.string.sample_question),
+                text = (displayQuestions(ques, qr.getQuestionNum() - 1)),
                 color = colorResource(R.color.white),
                 fontSize = 19.sp,
                 modifier = Modifier
@@ -132,6 +117,13 @@ fun QuizPageView(navController: NavController?, qr: QuizRepository, rCRS: Corout
         }
     }
 }
+
+@Composable
+fun displayQuestions(ques: QuestionListViewModel, index: Int): String {
+    return ques.getQuestion(index)
+}
+
+
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -219,5 +211,5 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
 @Preview(showBackground = true)
 @Composable
 fun QuizPreview(){
-    Quiz(navController = null, qr = viewModel())
+    //Quiz(navController = null, qr = viewModel(), question = Question)
 }
