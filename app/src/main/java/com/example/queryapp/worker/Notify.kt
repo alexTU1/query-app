@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.example.queryapp.R
 
@@ -20,20 +21,21 @@ class Notify(private var context: Context, private var title: String, private va
     private lateinit var notificationBuilder:NotificationCompat.Builder
 
 
+    @RequiresApi(Build.VERSION_CODES.S)
     fun buildingNotification(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationChannel = NotificationChannel(channelID,channelName,NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(notificationChannel)
         }
         val intent = Intent(context, Notification::class.java)
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE)
         notificationBuilder = NotificationCompat.Builder(context, channelID)
-        notificationBuilder.setSmallIcon(R.drawable.ic_launcher_background)
+        notificationBuilder.setSmallIcon(R.drawable.ic_launcher_foreground)
         notificationBuilder.addAction(R.drawable.ic_launcher_background, "Good Luck!", pendingIntent)
         notificationBuilder.setContentTitle(title)
         notificationBuilder.setContentText(msg)
         notificationBuilder.setAutoCancel(true)
-        notificationManager.notify(1,notificationBuilder.build())
+        notificationManager.notify(0,notificationBuilder.build())
     }
 
 

@@ -1,33 +1,22 @@
 package com.example.queryapp.impl
 
-import android.util.Log
+import android.app.Application
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.lifecycle.ViewModel
-//<<<<<<< HEAD
+import androidx.lifecycle.AndroidViewModel
 import com.example.queryapp.MainActivity
 import com.example.queryapp.pages.SubjectSelection.Subject
-//=======
-import org.json.JSONArray
-import org.json.JSONObject
-import org.json.JSONTokener
-import java.net.URL
-//>>>>>>> jrichb2_branch
 
-class QuizRepository : ViewModel() {
+
+class QuizRepository(app: Application) : AndroidViewModel(app) {
     private val question_Num: MutableState<Int> = mutableStateOf(1)
 
     private val progress: MutableState<Float> = mutableStateOf(0.0F)
 
     private val numCorrect: MutableState<Int> = mutableStateOf(0)
 
-    private val questions: List<Question?> = mutableListOf(null)
-
-    init{
-
-    }
+    private val question: MutableList<Question> = mutableListOf()
 
     private val optionSelected: MutableState<Boolean> = mutableStateOf(false)
 
@@ -152,4 +141,12 @@ class QuizRepository : ViewModel() {
     private fun getSubjects(): List<Subject> {
         return _subjectList
     }
+
+
+
+
+
+
+
+
 }
