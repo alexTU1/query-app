@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName
 data class Question(
     @PrimaryKey
     @SerializedName("ID")
-    val ID: UUID = UUID.randomUUID(),
+    val ID: Int,
 
     @ColumnInfo
     @SerializedName("Question")
@@ -23,19 +23,19 @@ data class Question(
     val level: String,
 
     @ColumnInfo
-    @SerializedName("Opt1")
+    @SerializedName("OptA")
     val optA: String,
 
     @ColumnInfo
-    @SerializedName("Opt2")
+    @SerializedName("OptB")
     val optB: String,
 
     @ColumnInfo
-    @SerializedName("Opt3")
+    @SerializedName("OptC")
     val optC: String,
 
     @ColumnInfo
-    @SerializedName("Opt4")
+    @SerializedName("OptD")
     val optD: String,
 
     @ColumnInfo

@@ -21,7 +21,7 @@ interface IQuestionFetcher {
 }
 
 class QuestionFetcher(ctx: Context) : IQuestionFetcher {
-    private val URL = "https://my-json-server.typicode.com/alexTU1/repo/Questions"
+    private val URL = "https://my-json-server.typicode.com/JRichbow0/JSON/Questions"
     private val client = OkHttpClient.Builder()
         .cache(
             Cache(

@@ -1,6 +1,7 @@
 package com.example.queryapp.database
 
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
@@ -22,12 +23,14 @@ class QuestionListViewModel(app: Application) : AndroidViewModel(app) {
             viewModelScope.launch {
                 _repository = QuizDatabaseRepository(getApplication())
                 try {
-                    val questions = questionFetcher.fetchQuestion()
-                    questions.forEach{ _questions.value }
+                    _questions.value = questionFetcher.fetchQuestion()
+                    Log.e("questionFetcher: ", questions.toString())
+                    _questions.value.forEach{ question -> questions.value[question.ID] }
                 }catch (e: Exception){
                     Toast.makeText(app, e.message, Toast.LENGTH_SHORT).show()
                 }
                _questions.value = _repository.getQuestions()
             }
+            Log.e("question list: ", _questions.value.toString())
         }
     }

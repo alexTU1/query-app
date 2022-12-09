@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -32,13 +33,19 @@ fun MBSubmitButton(
            if(isSelected.value == true){
                rCRS.launch {
                    mBSState.hide()
+                   if(qr.getQuestionNum() < 10) {
+                       qr.displayAnswers()
+                       delay(800)
+                       qr.hideAnswers()
+                       qr.nextQuestion()
+                   }
                }
                qr.resetAnswerSelection()
                if(qr.getQuestionNum() < 10){
                    if(qr.getFinalAnswer()){
                        qr.addPoint()
                    }
-                   qr.nextQuestion()
+                   //qr.nextQuestion()
                }
                else {
                    qr.setSubmitSelection()
