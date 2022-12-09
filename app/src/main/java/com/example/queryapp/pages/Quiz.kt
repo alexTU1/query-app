@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.queryapp.database.QuestionListViewModel
+import com.example.queryapp.impl.Question
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.submitContent.ConfirmBox
 import kotlinx.coroutines.CoroutineScope
@@ -33,7 +34,6 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
     val mBSState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val rCRS = rememberCoroutineScope()
     val isSelected = rememberSaveable{ mutableStateOf(true) }
-    //val qr: QuizRepository = viewModel()
     val ques: QuestionListViewModel = viewModel()
 
     ModalBottomSheetLayout(
@@ -61,10 +61,6 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
             QuizPageView(navController = navController, qr = qr, rCRS, mBSState, ques)
         }
     }
-
-
-
-
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -124,8 +120,7 @@ fun QuizPageView(
 
 @Composable
 fun displayQuestions(ques: QuestionListViewModel): String {
-return ques.toString()
-
+    return ques.questions.value.toString()
 }
 
 
@@ -145,20 +140,6 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
                     bottomSheetState.show()
                 }
             }
-//            coroutine.launch{
-//                bottomSheetState.show()
-//            }
-//            if(qr.getQuestionNum() < 10) {
-//                if(isCorrect){
-//                    qr.addPoint()
-//                }
-//                qr.nextQuestion()
-//                //solution to result counting issue ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-////                if(isCorrect && qr.getQuestionNum() == 10){
-////                    qr.addPoint()
-////                }
-//                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//            } else {
             else {
                 if (qr.getQuestionNum() == 10) {
                     if (isCorrect) {
@@ -170,19 +151,6 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
                     }
                 }
             }
-//                /*when user presses back button they will exit app...
-//                we need to somehow implement a way for them to press back button at anytime
-//                during the quiz taking process and take them back to the landing or subject
-//                selection page*/
-//
-//
-//                //submit button doesn't have a chance to pop up after 10th question is answered
-//                //because after 10th question is answered it automatically goes to the
-//                //result page.
-//                //navController?.navigate(route = ScreenHolder.QuizEnd.route)
-//                //qr.addPoint()
-//                //qr.reset()
-//            }
         },
         modifier = Modifier
             .fillMaxWidth(0.99F)

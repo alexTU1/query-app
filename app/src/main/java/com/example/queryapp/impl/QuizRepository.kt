@@ -5,13 +5,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.queryapp.MainActivity
-import com.example.queryapp.database.IQuizRepository
-import com.example.queryapp.database.QuestionFetcher
-import com.example.queryapp.database.QuizDatabaseRepository
 import com.example.queryapp.pages.SubjectSelection.Subject
-import kotlinx.coroutines.launch
 
 
 class QuizRepository(app: Application) : AndroidViewModel(app) {
@@ -21,8 +16,7 @@ class QuizRepository(app: Application) : AndroidViewModel(app) {
 
     private val numCorrect: MutableState<Int> = mutableStateOf(0)
 
-    private val questions: List<Question?> = mutableListOf(null)
-
+    private val question: MutableList<Question> = mutableListOf()
 
     private val optionSelected: MutableState<Boolean> = mutableStateOf(false)
 
@@ -153,27 +147,6 @@ class QuizRepository(app: Application) : AndroidViewModel(app) {
 
 
 
-//    private val _questions: MutableState<List<Question>> = mutableStateOf(listOf())
-//
-//    private lateinit var _repository: IQuizRepository
-//    private val questionFetcher = QuestionFetcher()
-//    private val selectQuestion: State<Question?>
-//    private val question : MutableState<Question?>
-//
-//    init {
-//        viewModelScope.launch {
-//            val questions = questionFetcher.fetchQuestion()
-//            _repository = QuizDatabaseRepository(getApplication(), questions)
-//
-//            questions.forEach{ question -> _repository.getQuestions()}
-//        }
-//        question = mutableStateOf(null)
-//        selectQuestion = question
-//    }
-//
-//    fun getQuestion(): List<Question?> {
-//        return questions
-//    }
 
 
 }

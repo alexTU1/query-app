@@ -4,11 +4,10 @@ import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -17,17 +16,14 @@ import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.ui.theme.QueryappAdvancedTheme
 import com.example.queryapp.ui.theme.QueryappBeginnerTheme
 import com.example.queryapp.ui.theme.QueryappIntermediateTheme
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.queryapp.database.Question
-import com.example.queryapp.worker.NotificationMessage
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
-import okhttp3.internal.notify
 
 
 class MainActivity : ComponentActivity() {
     lateinit var navController: NavHostController
+    @RequiresApi(33)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent{
@@ -41,11 +37,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
+@RequiresApi(33)
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun RequestNotificationPermission() {
     val permissionState = rememberPermissionState(
-        permission = Manifest.permission.ACCESS_FINE_LOCATION
+        permission = Manifest.permission.POST_NOTIFICATIONS
     )
     if (!permissionState.status.isGranted) {
         LaunchedEffect(key1 = true) {

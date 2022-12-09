@@ -1,18 +1,18 @@
 package com.example.queryapp.database
 
+
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.Gson
 import java.util.*
 import com.google.gson.annotations.SerializedName
-import com.google.gson.reflect.TypeToken
+
 
 @Entity(tableName = "questions")
 data class Question(
     @PrimaryKey
     @SerializedName("ID")
-    val id: UUID,
+    val ID: UUID = UUID.randomUUID(),
 
     @ColumnInfo
     @SerializedName("Question")

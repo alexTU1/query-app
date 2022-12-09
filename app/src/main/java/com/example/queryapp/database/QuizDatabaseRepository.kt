@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.room.Room
 
 
-class QuizDatabaseRepository(app: Application, questions: List<Question>) : IQuizRepository {
+class QuizDatabaseRepository(app: Application) : IQuizRepository {
 
     private val db: QuestionDatabase
 
@@ -13,7 +13,8 @@ class QuizDatabaseRepository(app: Application, questions: List<Question>) : IQui
             app,
             QuestionDatabase::class.java,
             "questions.db"
-        ).build()
+        ).fallbackToDestructiveMigration()
+            .build()
 
     }
 

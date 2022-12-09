@@ -1,7 +1,5 @@
 package com.example.queryapp.navigation
 
-// Navigation implementation based on "Navigation Basics in Jetpack Compose" by Stevdza_San
-// https://www.youtube.com/watch?v=glyqjzkc4fk
 
 sealed class ScreenHolder(val route: String) {
     object Notification: ScreenHolder(route = "notification_screen")
