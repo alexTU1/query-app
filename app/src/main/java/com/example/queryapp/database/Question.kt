@@ -39,7 +39,7 @@ data class Question(
     val optD: String,
 
     @ColumnInfo
-    @SerializedName("Answer")
+    @SerializedName("correctOpt")
     val correctOpt: String
 )
 
