@@ -6,17 +6,16 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import com.example.queryapp.MainActivity
+import com.example.queryapp.database.QuestionListViewModel
 import com.example.queryapp.pages.SubjectSelection.Subject
 
 
 class QuizRepository(app: Application) : AndroidViewModel(app) {
-    private val question_Num: MutableState<Int> = mutableStateOf(1)
+    private val questionNum: MutableState<Int> = mutableStateOf(1)
 
     private val progress: MutableState<Float> = mutableStateOf(0.0F)
 
     private val numCorrect: MutableState<Int> = mutableStateOf(0)
-
-    private val question: MutableList<Question> = mutableListOf()
 
     private val selection: MutableState<String> = mutableStateOf("Z")
 
@@ -31,29 +30,30 @@ class QuizRepository(app: Application) : AndroidViewModel(app) {
     private val advancedDifficultyClick: MutableState<Boolean> = mutableStateOf(false)
 
     private var _subjects: MutableState<List<Subject>> = mutableStateOf(listOf())
-    val subjects: State<List<Subject>> = _subjects
 
     private var _subjectList = listOf<Subject>()
 
     private var _themeType: MutableState<MainActivity.ThemeType> = mutableStateOf(MainActivity.ThemeType.BEGINNER)
     val themeType: State<MainActivity.ThemeType> = _themeType
 
+    private var questionVM: QuestionListViewModel? = null
+
     init{
         _subjectList = (1..4).map{ i ->
             Subject("Subject $i", "")
         }
         _subjects.value = getSubjects()
-        //_themeType.value = getTheme()
     }
 
 
     fun getQuestionNum(): Int {
-        return question_Num.value
+        return questionNum.value
     }
 
     fun nextQuestion() {
-        question_Num.value++
-        progress.value = 0.1F*(question_Num.value - 1)
+        questionNum.value++
+        progress.value = 0.1F*(questionNum.value - 1)
+        questionVM?.nextQuestion()
     }
 
     fun getProgress() : Float {
@@ -94,9 +94,10 @@ class QuizRepository(app: Application) : AndroidViewModel(app) {
     }
 
     fun reset() {
-        question_Num.value = 1
+        questionNum.value = 1
         progress.value = 0.0F
         submitSelected.value = false
+        questionVM?.reset()
     }
 
     fun resetNumCorrect(){
@@ -127,16 +128,15 @@ class QuizRepository(app: Application) : AndroidViewModel(app) {
         return showAnswers.value
     }
 
-    //for app theme changes
-    fun isBeginnerDifficultyClicked() {
+    fun setBeginnerDifficulty() {
         beginnerDifficultyClick.value = true
     }
 
-    fun isIntermediateDifficultyClicked() {
+    fun setIntermediateDifficulty() {
         intermediateDifficultyClick.value = true
     }
 
-    fun isAdvancedDifficultyClicked() {
+    fun setAdvancedDifficulty() {
         advancedDifficultyClick.value = true
     }
 
@@ -144,7 +144,20 @@ class QuizRepository(app: Application) : AndroidViewModel(app) {
         return _subjectList
     }
 
-
+    fun setQuestionVM(ques: QuestionListViewModel) {
+        questionVM = ques
+        var difficulty = 0
+        if(beginnerDifficultyClick.value) {
+            difficulty = 1
+        }
+        if(intermediateDifficultyClick.value){
+            difficulty = 2
+        }
+        if(advancedDifficultyClick.value){
+            difficulty = 3
+        }
+        ques.getFirstQuestion(difficulty)
+    }
 
 
 

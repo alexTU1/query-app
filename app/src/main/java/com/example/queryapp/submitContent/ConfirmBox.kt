@@ -55,7 +55,7 @@ fun ConfirmBox(
                         qr.hideAnswers()
                         navController?.navigate(route = ScreenHolder.QuizEnd.route)
                         qr.reset()
-                        ques.reset()
+                        //ques.reset()
                     }
                 },
                 shape = RoundedCornerShape(20.dp),

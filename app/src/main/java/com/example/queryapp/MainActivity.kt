@@ -12,13 +12,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-//import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.ui.theme.QueryappAdvancedTheme
 import com.example.queryapp.ui.theme.QueryappBeginnerTheme
 import com.example.queryapp.ui.theme.QueryappIntermediateTheme
-
-
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.queryapp.impl.QuizRepository
 
 

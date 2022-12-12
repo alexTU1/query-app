@@ -3,7 +3,6 @@ package com.example.queryapp.database
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -16,14 +15,13 @@ import java.io.OutputStream
 
 
 interface IQuestionFetcher {
-    suspend fun fetchQuestion(): List<Question>
+    suspend fun fetchQuestion(url: String): List<Question>
     suspend fun fetchQues(url: String): Bitmap?
     suspend fun fetchAndSave(url: String, file: OutputStream)
     suspend fun fetchBytes(url: String):InputStream?
 }
 
 class QuestionFetcher(ctx: Context) : IQuestionFetcher {
-    private val URL = "https://my-json-server.typicode.com/JRichbow0/JSON/Beginner"
     private val client = OkHttpClient.Builder()
         .cache(
             Cache(
@@ -32,20 +30,18 @@ class QuestionFetcher(ctx: Context) : IQuestionFetcher {
             ))
         .build()
 
-    override suspend fun fetchQuestion(): List<Question> {
+    override suspend fun fetchQuestion(url: String): List<Question> {
         return withContext(Dispatchers.IO) {
             val request = Request.Builder()
                 .get()
-                .url(URL)
+                .url(url)
                 .build()
             val response = client.newCall(request).execute()
             val responseBody = response.body
             if(responseBody != null) {
                 val jsonString = responseBody.string()
-                //Log.d("jsonString", jsonString.toString())
                 val gson = Gson()
                 val questionArray = gson.fromJson(jsonString, Array<Question>::class.java)
-                Log.e("error", questionArray.toList().toString())
                 questionArray.toList()
             } else {
                 listOf()

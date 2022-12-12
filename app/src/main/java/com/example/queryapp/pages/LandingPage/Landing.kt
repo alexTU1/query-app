@@ -142,14 +142,7 @@ fun GetStarted(navController: NavController?, qr: QuizRepository){
             Button(
                 onClick = {
                     navController?.navigate(route = ScreenHolder.SubjectSelection.route)
-                    qr.isBeginnerDifficultyClicked()
-
-
-                    //logcat check
-                    Log.d("Beginner: ", qr.isBeginnerDifficultyClicked().toString())
-                    Log.d("Intermediate: ", qr.isIntermediateDifficultyClicked().toString())
-                    Log.d("Advanced: ", qr.isAdvancedDifficultyClicked().toString())
-                    Log.d("theme: ", qr.getTheme().toString())
+                    qr.setBeginnerDifficulty()
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier
@@ -178,15 +171,8 @@ fun GetStarted(navController: NavController?, qr: QuizRepository){
             Button(
                 onClick = {
                     navController?.navigate(route = ScreenHolder.SubjectSelection.route)
-                    qr.isIntermediateDifficultyClicked()
+                    qr.setIntermediateDifficulty()
                     qr.getTheme() === MainActivity.ThemeType.INTERMEDIATE
-
-
-                    //logcat check
-                    Log.d("Beginner: ", qr.isBeginnerDifficultyClicked().toString())
-                    Log.d("Intermediate: ", qr.isIntermediateDifficultyClicked().toString())
-                    Log.d("Advanced: ", qr.isAdvancedDifficultyClicked().toString())
-                    Log.d("theme: ", qr.getTheme().toString())
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier
@@ -213,14 +199,7 @@ fun GetStarted(navController: NavController?, qr: QuizRepository){
             Button(
                 onClick = {
                     navController?.navigate(route = ScreenHolder.SubjectSelection.route)
-                    qr.isAdvancedDifficultyClicked()
-                    qr.getTheme() === MainActivity.ThemeType.ADVANCED
-                    //themeColor === qr.getTheme()
-                    //logcat check
-                    Log.d("Beginner: ", qr.isBeginnerDifficultyClicked().toString())
-                    Log.d("Intermediate: ", qr.isIntermediateDifficultyClicked().toString())
-                    Log.d("Advanced: ", qr.isAdvancedDifficultyClicked().toString())
-                    Log.d("theme: ", qr.getTheme().toString())
+                    qr.setAdvancedDifficulty()
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 modifier = Modifier

@@ -1,107 +1,136 @@
 package com.example.queryapp.database
 
 import android.app.Application
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.queryapp.impl.QuizRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 class QuestionListViewModel(app: Application) : AndroidViewModel(app) {
 
-        private val _questions: MutableState<List<Question>> = mutableStateOf(listOf())
-        var questions: State<List<Question>> = _questions
+    private val _questions: MutableState<List<Question>> = mutableStateOf(listOf())
+    var questions: State<List<Question>> = _questions
 
-        var quizQuestions: MutableList<Question> = mutableListOf<Question>()
+    private var quizQuestions: MutableList<Question> = mutableListOf()
 
-        var questionIndex: MutableState<Int> = mutableStateOf(0)
+    private var beginnerQuestions: MutableList<Question> = mutableListOf()
+    private var intermediateQuestions: MutableList<Question> = mutableListOf()
+    private var advancedQuestions: MutableList<Question> = mutableListOf()
 
-        var questionString: MutableState<String> = mutableStateOf("")
-        var optA: MutableState<String> = mutableStateOf("")
-        var optB: MutableState<String> = mutableStateOf("")
-        var optC: MutableState<String> = mutableStateOf("")
-        var optD: MutableState<String> = mutableStateOf("")
-        var correctOpt: MutableState<String> = mutableStateOf("")
-        var truthValA: MutableState<Boolean> = mutableStateOf(false)
-        var truthValB: MutableState<Boolean> = mutableStateOf(false)
-        var truthValC: MutableState<Boolean> = mutableStateOf(false)
-        var truthValD: MutableState<Boolean> = mutableStateOf(false)
+    private lateinit var beginnerFirstQuestion: Question
+    private lateinit var intermediateFirstQuestion: Question
+    private lateinit var advancedFirstQuestion: Question
+
+
+    private var questionIndex: MutableState<Int> = mutableStateOf(0)
+
+    var questionString: MutableState<String> = mutableStateOf("")
+    var optA: MutableState<String> = mutableStateOf("")
+    var optB: MutableState<String> = mutableStateOf("")
+    var optC: MutableState<String> = mutableStateOf("")
+    var optD: MutableState<String> = mutableStateOf("")
+    private var correctOpt: MutableState<String> = mutableStateOf("")
+    private var truthValA: MutableState<Boolean> = mutableStateOf(false)
+    private var truthValB: MutableState<Boolean> = mutableStateOf(false)
+    private var truthValC: MutableState<Boolean> = mutableStateOf(false)
+    private var truthValD: MutableState<Boolean> = mutableStateOf(false)
 
     private lateinit var _repository: IQuizRepository
     private val questionFetcher = QuestionFetcher(getApplication())
 
-        init {
-            viewModelScope.launch {
-                _repository = QuizDatabaseRepository(getApplication())
-                try {
-                    _questions.value = questionFetcher.fetchQuestion()
-                    populateQuestions(_questions.value)
-                    Log.e("questionFetcher: ", questions.toString())
-                    questionString.value = getFirstQuestion(_questions.value).question
-                    optA.value = getFirstQuestion(_questions.value).optA
-                    optB.value = getFirstQuestion(_questions.value).optB
-                    optC.value = getFirstQuestion(_questions.value).optC
-                    optD.value = getFirstQuestion(_questions.value).optD
-                    correctOpt.value = getFirstQuestion(_questions.value).correctOpt
+    private var difficultyLevel: DifficultyLevel = DifficultyLevel.BEGINNER
 
-                    //truthVal.value
-                    Log.d("questions: ", questionString.value)
-                    Log.d("AnswerA: ", optA.value)
-                    Log.d("AnswerB: ", optB.value)
-                    Log.d("AnswerC: ", optC.value)
-                    Log.d("AnswerD: ", optD.value)
-                    Log.d("CorrectAnswer: ", correctOpt.value)
-                    //Log.d("truth value: ", truthVal.value.toString())
-                    questions = _questions
-                    _questions.value.map{ question -> question.ID + 1 }
-                }catch (e: Exception){
-                    Toast.makeText(app, e.message, Toast.LENGTH_SHORT).show()
+    enum class DifficultyLevel {
+        BEGINNER, INTERMEDIATE, ADVANCED
+    }
+
+    private var qr: QuizRepository? = null
+
+    init {
+        viewModelScope.launch {
+            _repository = QuizDatabaseRepository(getApplication())
+            try {
+                questionFetcher.fetchQuestion("https://my-json-server.typicode.com/JRichbow0/JSON/Beginner").forEach{question ->
+                    if(question.ID == 0){
+                        beginnerFirstQuestion = question
+                    }
+                    beginnerQuestions.add(question)
                 }
-               _questions.value = _repository.getQuestions()
+                questionFetcher.fetchQuestion("https://my-json-server.typicode.com/dsimms360/querydb/Intermediate").forEach{question ->
+                    if(question.ID == 11){
+                        intermediateFirstQuestion = question
+                    }
+                    intermediateQuestions.add(question)
+                }
+                questionFetcher.fetchQuestion("https://my-json-server.typicode.com/alexTU1/repo/Advanced").forEach{question ->
+                    if(question.ID == 21){
+                        advancedFirstQuestion = question
+                    }
+                    advancedQuestions.add(question)
+                }
+                questions = _questions
+                _questions.value.map{ question -> question.ID + 1 }
+            }catch (e: Exception){
+                Toast.makeText(app, e.message, Toast.LENGTH_SHORT).show()
             }
-            Log.e("question list: ", _questions.value.toString())
-        }
-
-    fun getFirstQuestion(questions: List<Question>): Question{
-        questions.forEach{question ->
-            return question
-        }
-        return Question(-1, "", "", "", "", "", "")
-    }
-
-    fun populateQuestions(questions: List<Question>) {
-        questions.forEach{question ->
-            quizQuestions.add(question)
+            _questions.value = _repository.getQuestions()
         }
     }
 
-    fun getQuestionString(questions: List<Question>): String{
-        //Log.e("IndexedQuestion", questions[questionIndex].question)
-        return questionString.value
+    fun getFirstQuestion(difficulty: Int) {
+        viewModelScope.launch {
+            delay(1000)
+            when (difficulty) {
+                1 -> {
+                    quizQuestions = beginnerQuestions
+                    difficultyLevel = DifficultyLevel.BEGINNER
+                }
+                2 -> {
+                    quizQuestions = intermediateQuestions
+                    difficultyLevel = DifficultyLevel.INTERMEDIATE
+                }
+                3 -> {
+                    quizQuestions = advancedQuestions
+                    difficultyLevel = DifficultyLevel.ADVANCED
+                }
+            }
+            when (difficultyLevel) {
+                DifficultyLevel.BEGINNER -> {
+                    questionString.value = beginnerFirstQuestion.question
+                    optA.value = beginnerFirstQuestion.optA
+                    optB.value = beginnerFirstQuestion.optB
+                    optC.value = beginnerFirstQuestion.optC
+                    optD.value = beginnerFirstQuestion.optD
+                    correctOpt.value = beginnerFirstQuestion.correctOpt
+                }
+                DifficultyLevel.INTERMEDIATE -> {
+                    questionString.value = intermediateFirstQuestion.question
+                    optA.value = intermediateFirstQuestion.optA
+                    optB.value = intermediateFirstQuestion.optB
+                    optC.value = intermediateFirstQuestion.optC
+                    optD.value = intermediateFirstQuestion.optD
+                    correctOpt.value = intermediateFirstQuestion.correctOpt
+                }
+                DifficultyLevel.ADVANCED -> {
+                    questionString.value = advancedFirstQuestion.question
+                    optA.value = advancedFirstQuestion.optA
+                    optB.value = advancedFirstQuestion.optB
+                    optC.value = advancedFirstQuestion.optC
+                    optD.value = advancedFirstQuestion.optD
+                    correctOpt.value = advancedFirstQuestion.correctOpt
+                }
+            }
+        }
     }
 
-    private fun getQuestionAnswerOptA(questions: List<Question>): String{
-        return optA.value
-    }
-
-    private fun getQuestionAnswerOptB(questions: List<Question>): String{
-        return optB.value
-    }
-
-    private fun getQuestionAnswerOptC(questions: List<Question>): String{
-        return optC.value
-    }
-
-    private fun getQuestionAnswerOptD(questions: List<Question>): String{
-        return optD.value
-    }
-
-    private fun getCorrectAnswerOpt(questions: List<Question>): String{
-        return correctOpt.value
+    fun setQuizRepository(QR: QuizRepository){
+        qr = QR
     }
 
     fun getTrueFalseValueA(): Boolean{
@@ -129,13 +158,13 @@ class QuestionListViewModel(app: Application) : AndroidViewModel(app) {
         truthValB.value = false
         truthValC.value = false
         truthValD.value = false
-        questionIndex.value == questionIndex.value++
-        questionString.value = quizQuestions[questionIndex.value].question
-        optA.value = quizQuestions[questionIndex.value].optA
-        optB.value = quizQuestions[questionIndex.value].optB
-        optC.value = quizQuestions[questionIndex.value].optC
-        optD.value = quizQuestions[questionIndex.value].optD
-        correctOpt.value = quizQuestions[questionIndex.value].correctOpt
+        questionIndex.value = questionIndex.value++
+        questionString.value = quizQuestions[qr?.getQuestionNum()!! - 1].question
+        optA.value = quizQuestions[qr?.getQuestionNum()!! - 1].optA
+        optB.value = quizQuestions[qr?.getQuestionNum()!! - 1].optB
+        optC.value = quizQuestions[qr?.getQuestionNum()!! - 1].optC
+        optD.value = quizQuestions[qr?.getQuestionNum()!! - 1].optD
+        correctOpt.value = quizQuestions[qr?.getQuestionNum()!! - 1].correctOpt
     }
 
     fun reset() {

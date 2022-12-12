@@ -1,7 +1,6 @@
-package com.example.queryapp
+package com.example.queryapp.pages
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
@@ -12,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -21,8 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.queryapp.submitContent.MBSubmitButton
+import com.example.queryapp.R
 import com.example.queryapp.database.QuestionListViewModel
-import com.example.queryapp.impl.Question
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.submitContent.ConfirmBox
 import kotlinx.coroutines.CoroutineScope
@@ -39,8 +38,11 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
     val isSelected = rememberSaveable{ mutableStateOf(true) }
     val ques: QuestionListViewModel = viewModel()
 
+    qr.setQuestionVM(ques)
+    ques.setQuizRepository(qr)
+
     ModalBottomSheetLayout(
-        sheetContent = { MBSubmitButton(navController, isSelected, qr, ques, rCRS, mBSState) },
+        sheetContent = { MBSubmitButton(isSelected, qr, rCRS, mBSState) },
         sheetBackgroundColor = Color.Transparent,
         sheetElevation = 10.dp,
         sheetState = mBSState,
@@ -127,14 +129,6 @@ fun QuizPageView(
     }
 }
 
-@Composable
-fun displayQuestions(ques: QuestionListViewModel): String {
-    return ques.getQuestionString(ques.questions.value)
-}
-
-
-
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AnswerOption(qr: QuizRepository, ques: QuestionListViewModel, navController: NavController?, coroutine: CoroutineScope, bottomSheetState: ModalBottomSheetState, letter: String, optionString: String, isCorrect: Boolean){
@@ -212,6 +206,7 @@ fun AnswerOption(qr: QuizRepository, ques: QuestionListViewModel, navController:
                     fontSize = 15.sp,
                     color = MaterialTheme.colors.primary,
                     modifier = Modifier
+                        .fillMaxWidth()
                         .padding(15.dp)
                 )
         }
