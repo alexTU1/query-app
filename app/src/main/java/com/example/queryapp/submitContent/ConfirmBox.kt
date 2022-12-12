@@ -30,13 +30,10 @@ fun ConfirmBox(
     text: String,
     navController: NavController?,
     qr: QuizRepository,
-    ques: QuestionListViewModel,
     coroutine: CoroutineScope,
     bottomSheetState: ModalBottomSheetState
-    //cvm: ConfirmBoxViewModel
 ) {
     val showConfirmBoxs = MutableStateFlow(false)
-    //val showConfirmBox: StateFlow<Boolean> = showConfirmBoxs.asStateFlow()
 
     fun onDismiss() {
         showConfirmBoxs.value = false
@@ -55,7 +52,6 @@ fun ConfirmBox(
                         qr.hideAnswers()
                         navController?.navigate(route = ScreenHolder.QuizEnd.route)
                         qr.reset()
-                        //ques.reset()
                     }
                 },
                 shape = RoundedCornerShape(20.dp),

@@ -1,5 +1,7 @@
 package com.example.queryapp
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -12,9 +14,7 @@ import com.example.queryapp.pages.Quiz
 import com.example.queryapp.worker.NotificationMessage
 
 
-// Navigation implementation based on "Navigation Basics in Jetpack Compose" by Stevdza_San
-// https://www.youtube.com/watch?v=glyqjzkc4fk
-
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun setUpNavGraph(
     navController: NavHostController,

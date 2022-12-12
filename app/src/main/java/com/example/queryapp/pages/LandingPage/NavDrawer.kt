@@ -17,13 +17,6 @@ import com.example.queryapp.pages.LandingPage.NavDrawerItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-//@Composable
-//fun NavDrawer(){
-//    NavDrawerHeader()
-//    NavDrawerContent(drawerItems = , whenClicked = )
-//}
-
-
 @Composable
 fun NavDrawerHeader(
     state: ScaffoldState,

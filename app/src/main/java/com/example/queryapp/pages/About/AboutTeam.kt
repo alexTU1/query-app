@@ -1,5 +1,6 @@
 package com.example.queryapp.pages
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AboutTeam(navController: NavController?){
     Scaffold(

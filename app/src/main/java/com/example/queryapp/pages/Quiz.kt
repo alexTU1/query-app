@@ -110,10 +110,8 @@ fun QuizPageView(
                         .clip(RoundedCornerShape(20.dp))
                 )
             }
-            //val quesString = ques.getQuestionString(ques.questions.value)
-            //Log.d("ques response", quesString)
+
             Text(
-                //text = (displayQuestions(ques, qr.getQuestionNum() - 1)),
                 text = (ques.questionString.value),
                 color = colorResource(R.color.white),
                 fontSize = 19.sp,
@@ -121,17 +119,17 @@ fun QuizPageView(
                     .fillMaxWidth(0.95F)
                     .padding(20.dp, 0.dp, 20.dp, 10.dp)
             )
-            AnswerOption(qr, ques, navController, rCRS, mBSState,"A", ques.optA.value, ques.getTrueFalseValueA())
-            AnswerOption(qr, ques, navController, rCRS, mBSState,"B", ques.optB.value, ques.getTrueFalseValueB())
-            AnswerOption(qr, ques, navController, rCRS, mBSState,"C", ques.optC.value, ques.getTrueFalseValueC())
-            AnswerOption(qr, ques, navController, rCRS, mBSState,"D", ques.optD.value, ques.getTrueFalseValueD())
+            AnswerOption(qr, navController, rCRS, mBSState,"A", ques.optA.value, ques.getTrueFalseValueA())
+            AnswerOption(qr, navController, rCRS, mBSState,"B", ques.optB.value, ques.getTrueFalseValueB())
+            AnswerOption(qr, navController, rCRS, mBSState,"C", ques.optC.value, ques.getTrueFalseValueC())
+            AnswerOption(qr, navController, rCRS, mBSState,"D", ques.optD.value, ques.getTrueFalseValueD())
         }
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AnswerOption(qr: QuizRepository, ques: QuestionListViewModel, navController: NavController?, coroutine: CoroutineScope, bottomSheetState: ModalBottomSheetState, letter: String, optionString: String, isCorrect: Boolean){
+fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: CoroutineScope, bottomSheetState: ModalBottomSheetState, letter: String, optionString: String, isCorrect: Boolean){
     Button(
         onClick = {
             qr.selectionMade(letter)
@@ -166,7 +164,7 @@ fun AnswerOption(qr: QuizRepository, ques: QuestionListViewModel, navController:
     {
 
         if(qr.getSubmitSelection() && qr.getQuestionNum() == 10){
-            ConfirmBox(title = "Confirm", text = "Are you sure you want to submit?", navController = navController, qr, ques, coroutine, bottomSheetState)
+            ConfirmBox(title = "Confirm", text = "Are you sure you want to submit?", navController = navController, qr, coroutine, bottomSheetState)
         }
         Row(
             horizontalArrangement = Arrangement.aligned(Alignment.End),

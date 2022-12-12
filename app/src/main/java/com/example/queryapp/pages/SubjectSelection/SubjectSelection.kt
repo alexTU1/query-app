@@ -79,7 +79,6 @@ fun SubjectRow(
     idx: Int,
     subject: Subject,
     navController: NavController?,
-//    screenHolder: String //route to quiz
 ){
     Column(
         modifier = Modifier.padding(horizontal = 10.dp, 10.dp)
@@ -116,38 +115,7 @@ fun SubjectRow(
                         textAlign = TextAlign.Center
                     )
                 }
-
             }
-//            Card(
-//                elevation = 20.dp,
-//                modifier = Modifier
-//                    .size(width = 180.dp, height = 120.dp)
-//                    .padding(vertical = 5.dp, horizontal = 10.dp)
-//                    .clip(RoundedCornerShape(20.dp))
-//                    .clickable(
-//                        onClick = {
-//                            navController?.navigate(route = screenHolder) {
-//                                popUpTo(ScreenHolder.Landing.route) {
-//                                    inclusive = true
-//                                }
-//                            }
-//                        }
-//                    ),
-//                backgroundColor = MaterialTheme.colors.primaryVariant
-//
-//            ) {
-//                Column(
-//                    horizontalAlignment = Alignment.CenterHorizontally,
-//                    verticalArrangement = Arrangement.Center
-//                ) {
-//                    Text(
-//                        text = subject2,
-//                        color = colorResource(R.color.white),
-//                        fontSize = 20.sp,
-//                        textAlign = TextAlign.Center
-//                    )
-//                }
-//            }
         }
     }
 }

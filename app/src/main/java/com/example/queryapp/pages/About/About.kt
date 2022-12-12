@@ -1,5 +1,6 @@
 package com.example.queryapp
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.queryapp.navigation.ScreenHolder
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AboutQuery(navController: NavController?){
     Scaffold(
@@ -114,8 +116,6 @@ fun MeetTheTeam(navController: NavController?){
         }
     }
 }
-
-
 
 
 @Preview(showBackground = true)

@@ -1,7 +1,6 @@
 package com.example.queryapp
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,7 +11,6 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -135,7 +133,6 @@ fun GetStarted(navController: NavController?, qr: QuizRepository){
                 text = stringResource(R.string.get_started),
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
-                //fontFamily = FontFamily.Serif,
                 color = Color.Gray
             )
             Spacer(modifier =  Modifier.height(10.dp))
@@ -164,7 +161,6 @@ fun GetStarted(navController: NavController?, qr: QuizRepository){
                     text = stringResource(R.string.beginner),
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Normal,
-                    //fontFamily = FontFamily.Serif,
                     color = Color.White
                 )
             }
@@ -193,7 +189,6 @@ fun GetStarted(navController: NavController?, qr: QuizRepository){
                     text = stringResource(R.string.intermediate),
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Normal,
-                    //fontFamily = FontFamily.Serif,
                     color = Color.White)
             }
             Button(
@@ -220,7 +215,6 @@ fun GetStarted(navController: NavController?, qr: QuizRepository){
                     text = stringResource(R.string.advanced),
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Normal,
-                    // fontFamily = FontFamily.Serif,
                     color = Color.White)
             }
 
