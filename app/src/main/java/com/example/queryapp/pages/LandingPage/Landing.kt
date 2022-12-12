@@ -143,7 +143,6 @@ fun GetStarted(navController: NavController?, qr: QuizRepository){
                 onClick = {
                     navController?.navigate(route = ScreenHolder.SubjectSelection.route)
                     qr.isBeginnerDifficultyClicked()
-                    qr.getTheme() === MainActivity.ThemeType.BEGINNER
 
 
                     //logcat check

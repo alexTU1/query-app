@@ -128,25 +128,16 @@ class QuizRepository(app: Application) : AndroidViewModel(app) {
     }
 
     //for app theme changes
-    fun isBeginnerDifficultyClicked(): Boolean {
-        beginnerDifficultyClick.value = !beginnerDifficultyClick.value
-        intermediateDifficultyClick.value
-        advancedDifficultyClick.value
-        return beginnerDifficultyClick.value
+    fun isBeginnerDifficultyClicked() {
+        beginnerDifficultyClick.value = true
     }
 
-    fun isIntermediateDifficultyClicked(): Boolean {
-        intermediateDifficultyClick.value = !intermediateDifficultyClick.value
-        beginnerDifficultyClick.value
-        advancedDifficultyClick.value
-        return intermediateDifficultyClick.value
+    fun isIntermediateDifficultyClicked() {
+        intermediateDifficultyClick.value = true
     }
 
-    fun isAdvancedDifficultyClicked(): Boolean{
-        advancedDifficultyClick.value = !advancedDifficultyClick.value
-        beginnerDifficultyClick.value
-        intermediateDifficultyClick.value
-        return advancedDifficultyClick.value
+    fun isAdvancedDifficultyClicked() {
+        advancedDifficultyClick.value = true
     }
 
     private fun getSubjects(): List<Subject> {

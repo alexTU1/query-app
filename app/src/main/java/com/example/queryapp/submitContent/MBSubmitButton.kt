@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.queryapp.database.QuestionListViewModel
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +26,7 @@ fun MBSubmitButton(
     navController: NavController?,
     isSelected: MutableState<Boolean>,
     qr: QuizRepository,
+    ques: QuestionListViewModel,
     rCRS: CoroutineScope,
     mBSState: ModalBottomSheetState
 ){
@@ -38,6 +40,7 @@ fun MBSubmitButton(
                        delay(800)
                        qr.hideAnswers()
                        qr.nextQuestion()
+                       ques.nextQuestion()
                    }
                }
                qr.resetAnswerSelection()

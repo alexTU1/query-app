@@ -19,10 +19,6 @@ data class Question(
     val question: String,
 
     @ColumnInfo
-    @SerializedName("Level")
-    val level: String,
-
-    @ColumnInfo
     @SerializedName("OptA")
     val optA: String,
 

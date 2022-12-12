@@ -12,13 +12,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.queryapp.impl.QuizRepository
+//import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.ui.theme.QueryappAdvancedTheme
 import com.example.queryapp.ui.theme.QueryappBeginnerTheme
 import com.example.queryapp.ui.theme.QueryappIntermediateTheme
+
+
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.queryapp.impl.QuizRepository
+
+
+
+
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+
 
 
 class MainActivity : ComponentActivity() {
@@ -26,7 +35,9 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(33)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent{
+
             QueryappBeginnerTheme {
                 navController = rememberNavController()
                 setUpNavGraph(navController = navController)
@@ -36,6 +47,7 @@ class MainActivity : ComponentActivity() {
             RequestNotificationPermission()
         }
     }
+
 
 
 @RequiresApi(33)
@@ -48,6 +60,7 @@ fun RequestNotificationPermission() {
     if (!permissionState.status.isGranted) {
         LaunchedEffect(key1 = true) {
             permissionState.launchPermissionRequest()
+
         }
     }
 }
@@ -76,6 +89,7 @@ fun RequestNotificationPermission() {
         }
     }
 
+
     enum class ThemeType{
         BEGINNER, INTERMEDIATE, ADVANCED
     }
@@ -85,12 +99,22 @@ fun RequestNotificationPermission() {
         Text(text = "Hello $name")
     }
 
+
     @Preview(showBackground = true)
     @Composable
     fun DefaultPreview() {
+
+
+        QueryappBeginnerTheme {
+            Greeting("me")
+        }
+
+
+
         QueryappBeginnerTheme {
             Greeting("me")
         }
         QueryappBeginnerTheme {}
+
     }
 }

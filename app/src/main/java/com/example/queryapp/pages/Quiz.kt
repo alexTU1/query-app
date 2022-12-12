@@ -1,6 +1,7 @@
 package com.example.queryapp
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -24,6 +26,7 @@ import com.example.queryapp.impl.Question
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.submitContent.ConfirmBox
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -37,7 +40,7 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
     val ques: QuestionListViewModel = viewModel()
 
     ModalBottomSheetLayout(
-        sheetContent = { MBSubmitButton(navController, isSelected, qr, rCRS, mBSState) },
+        sheetContent = { MBSubmitButton(navController, isSelected, qr, ques, rCRS, mBSState) },
         sheetBackgroundColor = Color.Transparent,
         sheetElevation = 10.dp,
         sheetState = mBSState,
@@ -58,6 +61,9 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
                 )
             }
         ) {
+            rCRS.launch{
+                delay(400)
+            }
             QuizPageView(navController = navController, qr = qr, rCRS, mBSState, ques)
         }
     }
@@ -102,25 +108,28 @@ fun QuizPageView(
                         .clip(RoundedCornerShape(20.dp))
                 )
             }
+            //val quesString = ques.getQuestionString(ques.questions.value)
+            //Log.d("ques response", quesString)
             Text(
-                text = (displayQuestions(ques, qr.getQuestionNum() - 1)),
+                //text = (displayQuestions(ques, qr.getQuestionNum() - 1)),
+                text = (ques.questionString.value),
                 color = colorResource(R.color.white),
                 fontSize = 19.sp,
                 modifier = Modifier
                     .fillMaxWidth(0.95F)
                     .padding(20.dp, 0.dp, 20.dp, 10.dp)
             )
-            AnswerOption(qr, navController, rCRS, mBSState,"A", stringResource(R.string.correct_answer), true)
-            AnswerOption(qr, navController, rCRS, mBSState,"B", stringResource(R.string.incorrect_answer), false)
-            AnswerOption(qr, navController, rCRS, mBSState,"C", stringResource(R.string.incorrect_answer), false)
-            AnswerOption(qr, navController, rCRS, mBSState,"D", stringResource(R.string.incorrect_answer), false)
+            AnswerOption(qr, ques, navController, rCRS, mBSState,"A", ques.optA.value, ques.getTrueFalseValueA())
+            AnswerOption(qr, ques, navController, rCRS, mBSState,"B", ques.optB.value, ques.getTrueFalseValueB())
+            AnswerOption(qr, ques, navController, rCRS, mBSState,"C", ques.optC.value, ques.getTrueFalseValueC())
+            AnswerOption(qr, ques, navController, rCRS, mBSState,"D", ques.optD.value, ques.getTrueFalseValueD())
         }
     }
 }
 
 @Composable
-fun displayQuestions(ques: QuestionListViewModel, index: Int): String {
-    return ques.getQuestion(index)
+fun displayQuestions(ques: QuestionListViewModel): String {
+    return ques.getQuestionString(ques.questions.value)
 }
 
 
@@ -128,7 +137,7 @@ fun displayQuestions(ques: QuestionListViewModel, index: Int): String {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: CoroutineScope, bottomSheetState: ModalBottomSheetState, letter: String, optionString: String, isCorrect: Boolean){
+fun AnswerOption(qr: QuizRepository, ques: QuestionListViewModel, navController: NavController?, coroutine: CoroutineScope, bottomSheetState: ModalBottomSheetState, letter: String, optionString: String, isCorrect: Boolean){
     Button(
         onClick = {
             qr.selectionMade(letter)
@@ -159,12 +168,14 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
             colorResource(R.color.white)
         else
             colorResource(R.color.light_purple))
-    ){
+    )
+    {
 
         if(qr.getSubmitSelection() && qr.getQuestionNum() == 10){
-            ConfirmBox(title = "Confirm", text = "Are you sure you want to submit?", navController = navController, qr, coroutine, bottomSheetState)
+            ConfirmBox(title = "Confirm", text = "Are you sure you want to submit?", navController = navController, qr, ques, coroutine, bottomSheetState)
         }
         Row(
+            horizontalArrangement = Arrangement.aligned(Alignment.End),
             verticalAlignment = Alignment.CenterVertically
         ){
             val backgroundColor =
@@ -178,31 +189,31 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
                 }
                 else
                     colorResource(R.color.white)
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(CircleShape)
-                    .background(backgroundColor)
-                    .padding(20.dp),
-                contentAlignment = Alignment.Center
-            ){
+                Box(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(CircleShape)
+                        .background(backgroundColor)
+                        .padding(20.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = letter,
+                        fontSize = 18.sp,
+                        color =
+                        if (bottomSheetState.isVisible && letter == qr.currentSelection())
+                            colorResource(R.color.white)
+                        else
+                            colorResource(R.color.black)
+                    )
+                }
                 Text(
-                    text = letter,
-                    fontSize = 18.sp,
-                    color =
-                    if(bottomSheetState.isVisible && letter == qr.currentSelection())
-                        colorResource(R.color.white)
-                    else
-                        colorResource(R.color.black)
+                    text =  optionString,
+                    fontSize = 15.sp,
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier
+                        .padding(15.dp)
                 )
-            }
-            Text(
-                text =  optionString,
-                fontSize = 15.sp,
-                color = MaterialTheme.colors.primary,
-                modifier = Modifier
-                    .padding(15.dp)
-            )
         }
     }
 }
@@ -211,5 +222,6 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
 @Preview(showBackground = true)
 @Composable
 fun QuizPreview(){
-    //Quiz(navController = null, qr = viewModel(), question = Question)
+    val qr: QuizRepository = viewModel()
+    Quiz(navController = null, qr = qr)
 }

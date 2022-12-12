@@ -23,9 +23,7 @@ interface IQuestionFetcher {
 }
 
 class QuestionFetcher(ctx: Context) : IQuestionFetcher {
-    private val contxt = ctx
-    private val questions: MutableList<Question> = mutableListOf<Question>()
-    private val URL = "https://my-json-server.typicode.com/JRichbow0/JSON/Questions"//"https://my-json-server.typicode.com/alexTU1/repo/Questions"
+    private val URL = "https://my-json-server.typicode.com/JRichbow0/JSON/Beginner"
     private val client = OkHttpClient.Builder()
         .cache(
             Cache(
@@ -33,35 +31,6 @@ class QuestionFetcher(ctx: Context) : IQuestionFetcher {
                 10 * 1024L * 1024L
             ))
         .build()
-
-//    fun getQuestions(): List<Question?> {
-//        val queue = Volley.newRequestQueue(contxt)
-//        val qArray: Array<Question?> = arrayOfNulls(30)
-//        val request = StringRequest(
-//            com.android.volley.Request.Method.GET,
-//            URL,
-//            Response.Listener { response ->
-//                val questions = response.toString()
-//                var questionsArray = JSONArray(questions)
-//                for(i in 0..questionsArray.length()-1) {
-//                    var questionObject = questionsArray.getJSONObject(i)
-//                    val q = Question(
-//                        questionObject.getInt("ID"),
-//                        questionObject.getString("Question"),
-//                        questionObject.getString("Level")
-//                    )
-//                    qArray.set(i, q)
-//                    Log.e("questionsArray", questionObject.toString())
-//                }
-//
-//            },
-//            Response.ErrorListener {
-//
-//            } )
-//        queue.add(request)
-//        Log.e("questionsArray", qArray.toString())
-//        return listOf()
-//    }
 
     override suspend fun fetchQuestion(): List<Question> {
         return withContext(Dispatchers.IO) {
