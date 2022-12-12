@@ -7,6 +7,7 @@ val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
+
 //my beginner colors 'Purples'
 val DarkPurple = Color(0xFF6B2895)
 val MediumPurple = Color(0xFF9C56C6)
@@ -23,3 +24,4 @@ val MediumOrange = Color(0xFFFF7F63)
 val LightOrange = Color(0xFFffc8bb)
 
 val SubmitBlue = Color(0xFF48BAFB)
+

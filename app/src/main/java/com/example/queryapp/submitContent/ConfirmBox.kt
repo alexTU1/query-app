@@ -13,9 +13,11 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.queryapp.QuizEnd
+import com.example.queryapp.database.QuestionListViewModel
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,6 +30,7 @@ fun ConfirmBox(
     text: String,
     navController: NavController?,
     qr: QuizRepository,
+    ques: QuestionListViewModel,
     coroutine: CoroutineScope,
     bottomSheetState: ModalBottomSheetState
     //cvm: ConfirmBoxViewModel
@@ -46,8 +49,14 @@ fun ConfirmBox(
         confirmButton = {
             Button(
                 onClick = {
-                    navController?.navigate(route = ScreenHolder.QuizEnd.route)
-                    qr.reset()
+                    coroutine.launch{
+                        qr.displayAnswers()
+                        delay(800)
+                        qr.hideAnswers()
+                        navController?.navigate(route = ScreenHolder.QuizEnd.route)
+                        qr.reset()
+                        //ques.reset()
+                    }
                 },
                 shape = RoundedCornerShape(20.dp),
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primary)

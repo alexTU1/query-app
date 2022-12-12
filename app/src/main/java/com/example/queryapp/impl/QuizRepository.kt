@@ -1,32 +1,25 @@
 package com.example.queryapp.impl
 
-import android.util.Log
+import android.app.Application
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import com.example.queryapp.MainActivity
+import com.example.queryapp.database.QuestionListViewModel
 import com.example.queryapp.pages.SubjectSelection.Subject
-import org.json.JSONArray
-import org.json.JSONObject
-import org.json.JSONTokener
-import java.net.URL
 
-class QuizRepository : ViewModel() {
-    private val question_Num: MutableState<Int> = mutableStateOf(1)
+
+class QuizRepository(app: Application) : AndroidViewModel(app) {
+    private val questionNum: MutableState<Int> = mutableStateOf(1)
 
     private val progress: MutableState<Float> = mutableStateOf(0.0F)
 
     private val numCorrect: MutableState<Int> = mutableStateOf(0)
 
-    private val questions: List<Question?> = mutableListOf(null)
+    private val selection: MutableState<String> = mutableStateOf("Z")
 
-    init{
-
-    }
-
-    private val optionSelected: MutableState<Boolean> = mutableStateOf(false)
+    private val showAnswers: MutableState<Boolean> = mutableStateOf(false)
 
     private val submitSelected: MutableState<Boolean> = mutableStateOf(false)
 
@@ -37,29 +30,30 @@ class QuizRepository : ViewModel() {
     private val advancedDifficultyClick: MutableState<Boolean> = mutableStateOf(false)
 
     private var _subjects: MutableState<List<Subject>> = mutableStateOf(listOf())
-    val subjects: State<List<Subject>> = _subjects
 
     private var _subjectList = listOf<Subject>()
 
     private var _themeType: MutableState<MainActivity.ThemeType> = mutableStateOf(MainActivity.ThemeType.BEGINNER)
     val themeType: State<MainActivity.ThemeType> = _themeType
 
+    private var questionVM: QuestionListViewModel? = null
+
     init{
         _subjectList = (1..4).map{ i ->
             Subject("Subject $i", "")
         }
         _subjects.value = getSubjects()
-        //_themeType.value = getTheme()
     }
 
 
     fun getQuestionNum(): Int {
-        return question_Num.value
+        return questionNum.value
     }
 
     fun nextQuestion() {
-        question_Num.value++
-        progress.value = 0.1F*(question_Num.value - 1)
+        questionNum.value++
+        progress.value = 0.1F*(questionNum.value - 1)
+        questionVM?.nextQuestion()
     }
 
     fun getProgress() : Float {
@@ -86,26 +80,24 @@ class QuizRepository : ViewModel() {
         return numCorrect.value
     }
 
-    fun selectionMade(){
-        optionSelected.value = true
+    fun selectionMade(letter: String){
+        selection.value = letter
     }
 
-    fun deselect(){
-        optionSelected.value = false
-    }
 
-    fun isSelectionMade() : Boolean {
-        return optionSelected.value
+    fun currentSelection() : String {
+        return selection.value
     }
 
     fun resetAnswerSelection() {
-        optionSelected.value = false
+        selection.value = "Z"
     }
 
     fun reset() {
-        question_Num.value = 1
+        questionNum.value = 1
         progress.value = 0.0F
         submitSelected.value = false
+        questionVM?.reset()
     }
 
     fun resetNumCorrect(){
@@ -124,29 +116,52 @@ class QuizRepository : ViewModel() {
         submitSelected.value = !submitSelected.value
     }
 
-    //for app theme changes
-    fun isBeginnerDifficultyClicked(): Boolean {
-        beginnerDifficultyClick.value = !beginnerDifficultyClick.value
-        intermediateDifficultyClick.value
-        advancedDifficultyClick.value
-        return beginnerDifficultyClick.value
+    fun displayAnswers() {
+        showAnswers.value = true
     }
 
-    fun isIntermediateDifficultyClicked(): Boolean {
-        intermediateDifficultyClick.value = !intermediateDifficultyClick.value
-        beginnerDifficultyClick.value
-        advancedDifficultyClick.value
-        return intermediateDifficultyClick.value
+    fun hideAnswers() {
+        showAnswers.value = false
     }
 
-    fun isAdvancedDifficultyClicked(): Boolean{
-        advancedDifficultyClick.value = !advancedDifficultyClick.value
-        beginnerDifficultyClick.value
-        intermediateDifficultyClick.value
-        return advancedDifficultyClick.value
+    fun getShowAnswersValue() : Boolean {
+        return showAnswers.value
+    }
+
+    fun setBeginnerDifficulty() {
+        beginnerDifficultyClick.value = true
+    }
+
+    fun setIntermediateDifficulty() {
+        intermediateDifficultyClick.value = true
+    }
+
+    fun setAdvancedDifficulty() {
+        advancedDifficultyClick.value = true
     }
 
     private fun getSubjects(): List<Subject> {
         return _subjectList
     }
+
+    fun setQuestionVM(ques: QuestionListViewModel) {
+        questionVM = ques
+        var difficulty = 0
+        if(beginnerDifficultyClick.value) {
+            difficulty = 1
+        }
+        if(intermediateDifficultyClick.value){
+            difficulty = 2
+        }
+        if(advancedDifficultyClick.value){
+            difficulty = 3
+        }
+        ques.getFirstQuestion(difficulty)
+    }
+
+
+
+
+
+
 }

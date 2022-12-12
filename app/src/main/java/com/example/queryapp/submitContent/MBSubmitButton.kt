@@ -1,4 +1,4 @@
-package com.example.queryapp
+package com.example.queryapp.submitContent
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,16 +12,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.queryapp.impl.QuizRepository
-import com.example.queryapp.navigation.ScreenHolder
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MBSubmitButton(
-    navController: NavController?,
     isSelected: MutableState<Boolean>,
     qr: QuizRepository,
     rCRS: CoroutineScope,
@@ -29,22 +27,25 @@ fun MBSubmitButton(
 ){
    Button(
        onClick = {
-           if(isSelected.value == true){
+           if(isSelected.value){
                rCRS.launch {
                    mBSState.hide()
+                   if(qr.getQuestionNum() < 10) {
+                       qr.displayAnswers()
+                       delay(800)
+                       qr.hideAnswers()
+                       qr.nextQuestion()
+                   }
                }
                qr.resetAnswerSelection()
                if(qr.getQuestionNum() < 10){
                    if(qr.getFinalAnswer()){
                        qr.addPoint()
                    }
-                   qr.nextQuestion()
                }
                else {
                    qr.setSubmitSelection()
                }
-           //navController?.navigate(route = ScreenHolder.QuizEnd.route)
-           //qr.reset()
            }
        },
        modifier = Modifier

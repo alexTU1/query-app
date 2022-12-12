@@ -1,7 +1,6 @@
-package com.example.queryapp
+package com.example.queryapp.pages
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
@@ -20,15 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.queryapp.submitContent.MBSubmitButton
+import com.example.queryapp.R
+import com.example.queryapp.database.QuestionListViewModel
 import com.example.queryapp.impl.QuizRepository
-import com.example.queryapp.navigation.ScreenHolder
 import com.example.queryapp.submitContent.ConfirmBox
-import com.example.queryapp.submitContent.ConfirmBoxViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
@@ -39,10 +36,13 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
     val mBSState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val rCRS = rememberCoroutineScope()
     val isSelected = rememberSaveable{ mutableStateOf(true) }
-    //val qr: QuizRepository = viewModel()
+    val ques: QuestionListViewModel = viewModel()
+
+    qr.setQuestionVM(ques)
+    ques.setQuizRepository(qr)
 
     ModalBottomSheetLayout(
-        sheetContent = { MBSubmitButton(navController, isSelected, qr, rCRS, mBSState) },
+        sheetContent = { MBSubmitButton(isSelected, qr, rCRS, mBSState) },
         sheetBackgroundColor = Color.Transparent,
         sheetElevation = 10.dp,
         sheetState = mBSState,
@@ -58,36 +58,29 @@ fun Quiz(navController: NavController?, qr: QuizRepository) {
                             fontWeight = FontWeight.Bold)
 
                     },
-//                    actions = {
-//                              if(qr.getProgress() > 0.9F){
-//                                  rCRS.launch {
-//                                      mBSState.show()
-//                                  }
-//                              }
-////                              else{
-////                                  rCRS.launch {
-////                                      mBSState.hide()
-////                                  }
-////                              }
-//
-//                    },
                     backgroundColor = MaterialTheme.colors.secondary,
                     modifier = Modifier.height(80.dp)
                 )
             }
         ) {
-            QuizPageView(navController = navController, qr = qr, rCRS, mBSState)
+            rCRS.launch{
+                delay(400)
+            }
+            QuizPageView(navController = navController, qr = qr, rCRS, mBSState, ques)
         }
     }
-
-
-
-
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun QuizPageView(navController: NavController?, qr: QuizRepository, rCRS: CoroutineScope, mBSState: ModalBottomSheetState){
+fun QuizPageView(
+    navController: NavController?,
+    qr: QuizRepository,
+    rCRS: CoroutineScope,
+    mBSState: ModalBottomSheetState,
+    ques: QuestionListViewModel
+)
+{
     Column(
         modifier = Modifier
             .background(MaterialTheme.colors.primaryVariant)
@@ -117,51 +110,37 @@ fun QuizPageView(navController: NavController?, qr: QuizRepository, rCRS: Corout
                         .clip(RoundedCornerShape(20.dp))
                 )
             }
+            //val quesString = ques.getQuestionString(ques.questions.value)
+            //Log.d("ques response", quesString)
             Text(
-                text = stringResource(R.string.sample_question),
+                //text = (displayQuestions(ques, qr.getQuestionNum() - 1)),
+                text = (ques.questionString.value),
                 color = colorResource(R.color.white),
                 fontSize = 19.sp,
                 modifier = Modifier
                     .fillMaxWidth(0.95F)
                     .padding(20.dp, 0.dp, 20.dp, 10.dp)
             )
-            AnswerOption(qr, navController, rCRS, mBSState,"A", stringResource(R.string.correct_answer), true)
-            AnswerOption(qr, navController, rCRS, mBSState,"B", stringResource(R.string.incorrect_answer), false)
-            AnswerOption(qr, navController, rCRS, mBSState,"C", stringResource(R.string.incorrect_answer), false)
-            AnswerOption(qr, navController, rCRS, mBSState,"D", stringResource(R.string.incorrect_answer), false)
+            AnswerOption(qr, ques, navController, rCRS, mBSState,"A", ques.optA.value, ques.getTrueFalseValueA())
+            AnswerOption(qr, ques, navController, rCRS, mBSState,"B", ques.optB.value, ques.getTrueFalseValueB())
+            AnswerOption(qr, ques, navController, rCRS, mBSState,"C", ques.optC.value, ques.getTrueFalseValueC())
+            AnswerOption(qr, ques, navController, rCRS, mBSState,"D", ques.optD.value, ques.getTrueFalseValueD())
         }
     }
 }
 
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: CoroutineScope, bottomSheetState: ModalBottomSheetState, letter: String, optionString: String, isCorrect: Boolean){
-    var isSelected: Boolean by remember { mutableStateOf(false) }
+fun AnswerOption(qr: QuizRepository, ques: QuestionListViewModel, navController: NavController?, coroutine: CoroutineScope, bottomSheetState: ModalBottomSheetState, letter: String, optionString: String, isCorrect: Boolean){
     Button(
         onClick = {
-            isSelected = !isSelected
-            qr.selectionMade()
+            qr.selectionMade(letter)
             if(qr.getQuestionNum() < 10) {
                 qr.setFinalAnswer(isCorrect)
                 coroutine.launch {
                     bottomSheetState.show()
                 }
             }
-//            coroutine.launch{
-//                bottomSheetState.show()
-//            }
-//            if(qr.getQuestionNum() < 10) {
-//                if(isCorrect){
-//                    qr.addPoint()
-//                }
-//                qr.nextQuestion()
-//                //solution to result counting issue ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-////                if(isCorrect && qr.getQuestionNum() == 10){
-////                    qr.addPoint()
-////                }
-//                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//            } else {
             else {
                 if (qr.getQuestionNum() == 10) {
                     if (isCorrect) {
@@ -173,55 +152,63 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
                     }
                 }
             }
-//                /*when user presses back button they will exit app...
-//                we need to somehow implement a way for them to press back button at anytime
-//                during the quiz taking process and take them back to the landing or subject
-//                selection page*/
-//
-//
-//                //submit button doesn't have a chance to pop up after 10th question is answered
-//                //because after 10th question is answered it automatically goes to the
-//                //result page.
-//                //navController?.navigate(route = ScreenHolder.QuizEnd.route)
-//                //qr.addPoint()
-//                //qr.reset()
-//            }
         },
         modifier = Modifier
             .fillMaxWidth(0.99F)
             .padding(10.dp)
             .clip(RoundedCornerShape(20.dp)),
-        colors = ButtonDefaults.buttonColors(backgroundColor = if(isSelected) colorResource(R.color.white) else colorResource(R.color.light_purple))
-    ){
+        colors = ButtonDefaults.buttonColors(backgroundColor =
+        if(bottomSheetState.isVisible && letter == qr.currentSelection())
+            colorResource(R.color.white)
+        else
+            colorResource(R.color.light_purple))
+    )
+    {
 
         if(qr.getSubmitSelection() && qr.getQuestionNum() == 10){
-            ConfirmBox(title = "Confirm", text = "Are you sure you want to submit?", navController = navController, qr, coroutine, bottomSheetState)
+            ConfirmBox(title = "Confirm", text = "Are you sure you want to submit?", navController = navController, qr, ques, coroutine, bottomSheetState)
         }
         Row(
+            horizontalArrangement = Arrangement.aligned(Alignment.End),
             verticalAlignment = Alignment.CenterVertically
         ){
-            val backgroundColor = if(isSelected) colorResource(R.color.light_purple) else colorResource(R.color.white)
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(CircleShape)
-                    .background(backgroundColor)
-                    .padding(20.dp),
-                contentAlignment = Alignment.Center
-            ){
+            val backgroundColor =
+                if(bottomSheetState.isVisible && letter == qr.currentSelection())
+                    colorResource(R.color.light_purple)
+                else if(qr.getShowAnswersValue()){
+                    if(isCorrect)
+                       colorResource(R.color.correct_answer)
+                    else
+                        colorResource(R.color.incorrect_answer)
+                }
+                else
+                    colorResource(R.color.white)
+                Box(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(CircleShape)
+                        .background(backgroundColor)
+                        .padding(20.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = letter,
+                        fontSize = 18.sp,
+                        color =
+                        if (bottomSheetState.isVisible && letter == qr.currentSelection())
+                            colorResource(R.color.white)
+                        else
+                            colorResource(R.color.black)
+                    )
+                }
                 Text(
-                    text = letter,
-                    fontSize = 18.sp,
-                    color = if(isSelected) colorResource(R.color.white) else colorResource(R.color.black)
+                    text =  optionString,
+                    fontSize = 15.sp,
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(15.dp)
                 )
-            }
-            Text(
-                text =  optionString,
-                fontSize = 15.sp,
-                color = MaterialTheme.colors.primary,
-                modifier = Modifier
-                    .padding(15.dp)
-            )
         }
     }
 }
@@ -230,5 +217,6 @@ fun AnswerOption(qr: QuizRepository, navController: NavController?, coroutine: C
 @Preview(showBackground = true)
 @Composable
 fun QuizPreview(){
-    Quiz(navController = null, qr = viewModel())
+    val qr: QuizRepository = viewModel()
+    Quiz(navController = null, qr = qr)
 }

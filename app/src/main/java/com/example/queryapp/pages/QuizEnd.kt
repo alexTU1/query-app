@@ -1,5 +1,6 @@
 package com.example.queryapp
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +21,7 @@ import androidx.navigation.NavController
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun QuizEnd(navController: NavController?, qr: QuizRepository) {
     Scaffold(

@@ -1,7 +1,6 @@
 package com.example.queryapp
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -9,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.example.queryapp.impl.QuizRepository
 import com.example.queryapp.navigation.ScreenHolder
 import com.example.queryapp.pages.AboutTeam
+import com.example.queryapp.pages.Quiz
 import com.example.queryapp.worker.NotificationMessage
 
 
@@ -44,7 +44,7 @@ fun setUpNavGraph(
         composable(
             route = ScreenHolder.Quiz.route
         ) {
-            Quiz(navController, qr )
+            Quiz(navController, qr)
         }
 
         composable(
